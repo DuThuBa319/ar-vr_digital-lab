@@ -3,7 +3,22 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - UGT524
+  - IF6123
+  - RB3100
+  - TW2000
+  - O5C500
+  - KT5112
+  - AL1102
+  - AL2330
+  - AL2401
+  - DN4012
+  - RS775
+  - Relay
+  - Light
+  - CB
+  - ToggleSwitch
   layers:
   - Default
   - TransparentFX
