@@ -19,6 +19,18 @@ TagManager:
   - Light
   - CB
   - ToggleSwitch
+  - AL2401_C
+  - IF6123_C
+  - UGT524_C
+  - RB3100_C
+  - TW2000_C
+  - O5C500_C
+  - KT5112_C
+  - AL1102_P
+  - AL2330_P
+  - WS_MOTOR_RL
+  - WS_OL_GL
+  - AL2330_C
   layers:
   - Default
   - TransparentFX

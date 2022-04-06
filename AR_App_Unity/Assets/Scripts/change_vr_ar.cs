@@ -9,7 +9,7 @@ public class change_vr_ar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //frameVRMode.gameObject.SetActive(false);
+        frameVRMode.gameObject.SetActive(false);
         cameraVR.gameObject.SetActive(false);
         camera.gameObject.SetActive(true);
         
@@ -22,7 +22,7 @@ public class change_vr_ar : MonoBehaviour
     }
    public void ChangeVRAR()
     {
-        //frameVRMode.gameObject.SetActive(!modeVR);
+        frameVRMode.gameObject.SetActive(!modeVR);
         cameraVR.gameObject.SetActive(!modeVR);
         camera.gameObject.SetActive(modeVR);
         modeVR = !modeVR;
