@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class click_connector : MonoBehaviour
 {
-    public Material glowMaterial, orangeIFM, metal, blackConnector, blackLight;
+    public Material glowMaterial, orangeIFM, metal, blackConnector, blackLight, redMaterial;
     public Renderer conUGT524, conToUGT524, conIF6123, conToIF6123, conRB3100, conToRB3100;
     public Renderer conTW2000, conToTW2000, conKT5112, conToKT5112, conO5C500, conToO5C500;
     public Renderer conToAL1102, conAL2401, conToAL2401, conAL2330, conToAL2330, conPowerAL1102, conPowerAL2330;
-    public Renderer powerDN4012, wsMotorRL, wsOLGL;// con den va motor, relay...
-    bool glowUGT524, glowIF6123, glowRB3100, glowTW2000, glowO5C500, glowKT5112, glowAL2401, glowAL2330, glowPowerAL2330, glowPowerAL1102;
+    public Renderer powerDN4012, wsMotorRL, wsOLGL, motor, diskMotor, relay, toggleSwitch, redLight, orangeLight, greenLight;
+    bool glowUGT524, glowIF6123, glowRB3100, glowTW2000, glowO5C500, glowKT5112, glowAL2401, glowAL2330, glowPowerAL2330, glowPowerAL1102, glowWSMotorRL, glowWSOLGL;
     
     // Start is called before the first frame update
     void Start()
@@ -65,6 +65,15 @@ public class click_connector : MonoBehaviour
                 GlowConnectorKT5112();
             }
 
+            if (Physics.Raycast(ray, out hit) && hit.collider.tag == "WS_MOTOR_RL")
+            {
+                GlowConnectorWSMotorRL();
+            }
+            if (Physics.Raycast(ray, out hit) && hit.collider.tag == "WS_OL_GL")
+            {
+                GlowConnectorWSOLGL();
+            }
+
         }
     }
     private void GlowConnectorF1(ref bool glow, ref Renderer rendererGlow1, ref Renderer rendererGlow2)
@@ -110,6 +119,47 @@ public class click_connector : MonoBehaviour
             conRB3100.material = orangeIFM;
             conToRB3100.material = metal;
             glowRB3100 = false;
+        }
+    }   
+    
+    private void GlowConnectorWSMotorRL()
+    {
+        if (glowWSMotorRL == false)
+        {
+            wsMotorRL.material = glowMaterial;
+            diskMotor.material = glowMaterial;
+            motor.material = glowMaterial;
+            relay.material = glowMaterial;
+            toggleSwitch.material = glowMaterial;
+            redLight.material = glowMaterial;
+            glowWSMotorRL = true;
+        }
+        else
+        {
+            wsMotorRL.material = blackConnector;
+            diskMotor.material = redMaterial;
+            motor.material = metal;
+            relay.material = blackConnector;
+            toggleSwitch.material = metal;
+            redLight.material = blackLight;
+            glowWSMotorRL = false;
+        }
+    }    
+    private void GlowConnectorWSOLGL()
+    {
+        if (glowWSOLGL == false)
+        {
+            wsOLGL.material = glowMaterial;
+            greenLight.material = glowMaterial;
+            orangeLight.material = glowMaterial;
+            glowWSOLGL = true;
+        }
+        else
+        {
+            wsOLGL.material = blackConnector;
+            greenLight.material = blackLight;
+            orangeLight.material = blackLight;
+            glowWSOLGL = false;
         }
     }    
 }

@@ -13,8 +13,11 @@ public class click_sensor : MonoBehaviour
     bool showRS775, showLight, showCB, showRelay, showToggleSwitch;
 
     bool startTimerKT5112, startTimerCB, startTimerToggleSwitch;
-    float timerKT5112CV, timerCBCV, timerToggleSwitchCV;
+    float timerKT5112CV, timerCBCV, timerToggleSwitchCV, timerClickKT5112;
     int countClickKT5112, countClickCB, countClickToggleSwitch;
+
+    Vector3 vector3Position1O5C500 = new Vector3(-21.3f, 2.7f, 2.6f);
+    Vector3 vector3Position2O5C500 = new Vector3(-21.6f, 3.3f, 7.44f);
     // Start is called before the first frame update
     void Start()
     {
@@ -51,6 +54,7 @@ public class click_sensor : MonoBehaviour
             if (countClickKT5112 == 1)
             {
                 //Press KT5112
+                global_variables.clickKT5112 = true;
             }
             else if (countClickKT5112 >= 2)
             {
@@ -61,6 +65,19 @@ public class click_sensor : MonoBehaviour
             timerKT5112CV = 0;
             countClickKT5112 = 0;
         }
+
+        if (global_variables.clickKT5112 == true)
+        {
+
+            timerClickKT5112 += Time.deltaTime;
+            if (timerClickKT5112 >= 0.7f)
+            {
+                global_variables.clickKT5112 = false;
+                timerClickKT5112 = 0;
+            }
+        }    
+        
+
         #endregion
 
         #region CB
@@ -109,6 +126,14 @@ public class click_sensor : MonoBehaviour
         }
         #endregion ToggleSwitch
 
+        if (global_variables.clickDataO5C500 == true)
+        {
+            gameObjectO5C500.transform.localPosition = vector3Position2O5C500;
+        }
+        else
+        {
+            gameObjectO5C500.transform.localPosition = vector3Position1O5C500;
+        }
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -134,8 +159,11 @@ public class click_sensor : MonoBehaviour
             if (Physics.Raycast(ray, out hit) && hit.collider.tag == "O5C500")
             {
                 ShowPanel(ref showO5C500, gameObjectO5C500);
+                global_variables.clickGameObjectO5C500 = !global_variables.clickGameObjectO5C500;
+                
+               
             }
-
+            
             if (Physics.Raycast(ray, out hit) && hit.collider.tag == "KT5112")
             {
                 startTimerKT5112 = true;

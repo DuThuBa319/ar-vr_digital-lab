@@ -45,6 +45,11 @@ public class control_panels_v1 : MonoBehaviour
     {
         panelMain.gameObject.SetActive(false);
         panelData.gameObject.SetActive(true);
+
+        if (global_variables.clickGameObjectO5C500 == true)
+        {
+            global_variables.clickDataO5C500 = !global_variables.clickDataO5C500;
+        }
     }    
 
     public void OpenPanelWiring()
@@ -61,5 +66,10 @@ public class control_panels_v1 : MonoBehaviour
         panelDatasheetTemp2.gameObject.SetActive(false);
         panelData.gameObject.SetActive(false);
         panelWiring.gameObject.SetActive(false);
+
+        if (global_variables.clickGameObjectO5C500 == true)
+        {
+            global_variables.clickDataO5C500 = !global_variables.clickDataO5C500;
+        }
     }    
 }

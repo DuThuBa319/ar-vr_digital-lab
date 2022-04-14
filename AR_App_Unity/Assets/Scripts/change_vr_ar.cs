@@ -11,7 +11,7 @@ public class change_vr_ar : MonoBehaviour
     {
         frameVRMode.gameObject.SetActive(false);
         cameraVR.gameObject.SetActive(false);
-        camera.gameObject.SetActive(true);
+        //camera.gameObject.SetActive(true);
         
     }
 
@@ -24,7 +24,7 @@ public class change_vr_ar : MonoBehaviour
     {
         frameVRMode.gameObject.SetActive(!modeVR);
         cameraVR.gameObject.SetActive(!modeVR);
-        camera.gameObject.SetActive(modeVR);
+        //camera.gameObject.SetActive(modeVR);
         modeVR = !modeVR;
     }    
 }

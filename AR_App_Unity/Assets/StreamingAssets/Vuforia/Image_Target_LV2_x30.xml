@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
   <Tracking>
-    <ImageTarget name="ImageTarget_ValiIFM_v2_x30" size="30.000000 18.143713" />
+    <ImageTarget name="ImageTarget_ValiIFM_F" size="30.000000 18.184616" />
     <ImageTarget name="ImageTarget_ValiPLCx30" size="30.000000 21.639786" />
-    <ImageTarget name="ImageTarget_ValiIFMx30" size="30.000000 18.795732" />
   </Tracking>
 </QCARConfig>
