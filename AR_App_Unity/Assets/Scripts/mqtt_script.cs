@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,60 +6,87 @@ using uPLibrary.Networking.M2Mqtt;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using M2MqttUnity;
 using System;
+using System.Text;
 using TMPro;
 [Serializable]
 
 public class mqtt_script : M2MqttUnity.M2MqttUnityClient
 {
+    public Sprite connectError, connectOK;
+    public Image iconConnect;
+    public TextMeshProUGUI notifyConnect;
+    //public GameObject inputFieldID;
+    public TMP_InputField inputFieldID;
+
+
+    public DataValiIFMPublish DataValiIFM = new DataValiIFMPublish();
+
     string msg_pub;
-    float StartTime, t;
-    bool MQTTConnected;
+    float startTime, t;
+    bool mqttConnected;
+    string topicValiIFMPubToDA, ID;
 
-
-    
-    
-    
     protected override void Start()
     {
         base.Start();
-        StartTime = Time.time;
+        startTime = Time.time;
+
+        topicValiIFMPubToDA = "ValiIFMToDA: ID = 0";
     }
-    protected override void Update()
-    {
-        base.Update();
 
-        
-        
-
-        
-
-
-        t = Time.time - StartTime;
-        if (t >= 0.1f)
-        {
-            //msg_pub = Global_variable.Pos_UGT524.ToString();
-            if (MQTTConnected)
-            {
-                //client.Publish("ARAPP_VPS", System.Text.Encoding.UTF8.GetBytes(msg_pub), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
-            }
-
-            StartTime = Time.time;
-
-        }
-    }
     protected override void OnConnected()
     {
         base.OnConnected();
         Debug.Log("Connected");
-        MQTTConnected = true;
+        mqttConnected = true;
+        iconConnect.sprite = connectOK;
+        notifyConnect.text = "Kết nối thành công!";
         //Luu y cmt dong 313 trong file M2MqttUnityClient de ko bi bao loi khi ko ket noi duoc Broker
 
     }
     protected override void OnDisconnected()
     {
         base.OnDisconnected();
-        MQTTConnected = false;
+        mqttConnected = false;
+        iconConnect.sprite = connectError;
+        notifyConnect.text = "Kết nối không thành công! Bạn vui lòng kiểm tra lại!";
     }
+    protected override void Update()
+    {
+        base.Update();
+
+        UpdateValueValiIFMPub();
+        string jsonValiIFMPub = JsonUtility.ToJson(DataValiIFM, true);
+
+        t = Time.time - startTime;
+        if (t >= 0.1f)
+        {
+            if (mqttConnected)
+            {
+                client.Publish(topicValiIFMPubToDA, System.Text.Encoding.UTF8.GetBytes(jsonValiIFMPub), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+            }
+            startTime = Time.time;
+        }
+    }
+
+    public class DataValiIFMPublish
+    {
+        public Int16 valUGT = 0, valIF = 0, valTW = 0, valRB = 0;
+        public bool valKT = false, valO5C = false;
+        public bool out1UGT = false, out2UGT = false, out1IF = false, out2IF = false, outTW = false;
+    }
+
+    public void UpdateValueValiIFMPub()
+    {
+        DataValiIFM.valUGT = global_variables.sensorPositionUGT524;
+        DataValiIFM.valIF = global_variables.sensorValueIF6123;
+        DataValiIFM.valRB = global_variables.pulseRB3100;
+        DataValiIFM.valTW = global_variables.sensorValueTW2000;
+        DataValiIFM.valO5C = global_variables.sensorO5C500;
+        DataValiIFM.valKT = global_variables.clickKT5112;
+
+    }    
+    
     ////Subscribe Topic
     protected override void SubscribeTopics()
     {
@@ -89,6 +116,13 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
 
     }
 
+    public void SubmitID()
+    {
+        topicValiIFMPubToDA = "ValiIFMToDA: ID = " + inputFieldID.text;
+        Debug.Log(topicValiIFMPubToDA);
+    }
+
+
     ////Publish Message 
     /* public void PubMQTT_Btn()
      {
@@ -103,4 +137,8 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
          msg_pub = Global_variable.Pos_UGT524.ToString();
          client.Publish("ARAPP_VPS", System.Text.Encoding.UTF8.GetBytes(msg_pub), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
      }*/
+
+
+
+
 }
