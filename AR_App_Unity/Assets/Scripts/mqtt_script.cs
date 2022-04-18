@@ -19,19 +19,22 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     public TMP_InputField inputFieldID;
 
 
-    public DataValiIFMPublish DataValiIFM = new DataValiIFMPublish();
+    DataValiIFMToDA DataValiIFMToDAObj = new DataValiIFMToDA();
+    DataDAToValiIFM DataDAToValiIFMObj = new DataDAToValiIFM();
 
     string msg_pub;
     float startTime, t;
     bool mqttConnected;
-    string topicValiIFMPubToDA, ID;
+    string topicValiIFMToDA, topicDAtoValiIFM, ID;
+    string jsonDAToValiIFM;
 
     protected override void Start()
     {
         base.Start();
         startTime = Time.time;
 
-        topicValiIFMPubToDA = "ValiIFMToDA: ID = 0";
+        topicValiIFMToDA = "ValiIFMToDA: ID = 0";
+        topicDAtoValiIFM = "DAToValiIFM: ID = 0";
     }
 
     protected override void OnConnected()
@@ -42,7 +45,6 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         iconConnect.sprite = connectOK;
         notifyConnect.text = "Kết nối thành công!";
         //Luu y cmt dong 313 trong file M2MqttUnityClient de ko bi bao loi khi ko ket noi duoc Broker
-
     }
     protected override void OnDisconnected()
     {
@@ -55,73 +57,103 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     {
         base.Update();
 
-        UpdateValueValiIFMPub();
-        string jsonValiIFMPub = JsonUtility.ToJson(DataValiIFM, true);
+        UpdateDataValiIFMToDA();
+        string jsonValiIFMPub = JsonUtility.ToJson(DataValiIFMToDAObj, true);
+        UpdateDataDAtoValiIFM();
 
         t = Time.time - startTime;
         if (t >= 0.1f)
         {
             if (mqttConnected)
             {
-                client.Publish(topicValiIFMPubToDA, System.Text.Encoding.UTF8.GetBytes(jsonValiIFMPub), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                client.Publish(topicValiIFMToDA, System.Text.Encoding.UTF8.GetBytes(jsonValiIFMPub), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
             }
             startTime = Time.time;
         }
+
+
     }
 
-    public class DataValiIFMPublish
+    ////Subscribe Topic + Decode
+    protected override void SubscribeTopics()
+    {
+        client.Subscribe(new string[] { topicDAtoValiIFM }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+    }
+
+    protected override void DecodeMessage(string topic, byte[] message)
+    {
+        jsonDAToValiIFM = System.Text.Encoding.UTF8.GetString(message);
+        DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDAToValiIFM);
+    }
+
+    //Class
+    public class DataValiIFMToDA
     {
         public Int16 valUGT = 0, valIF = 0, valTW = 0, valRB = 0;
         public bool valKT = false, valO5C = false;
         public bool out1UGT = false, out2UGT = false, out1IF = false, out2IF = false, outTW = false;
     }
 
-    public void UpdateValueValiIFMPub()
+    public class DataDAToValiIFM
     {
-        DataValiIFM.valUGT = global_variables.sensorPositionUGT524;
-        DataValiIFM.valIF = global_variables.sensorValueIF6123;
-        DataValiIFM.valRB = global_variables.pulseRB3100;
-        DataValiIFM.valTW = global_variables.sensorValueTW2000;
-        DataValiIFM.valO5C = global_variables.sensorO5C500;
-        DataValiIFM.valKT = global_variables.clickKT5112;
+        public ushort SP1SSC1UGT = 300;
+        public ushort SP2SSC1UGT = 40;
+        public ushort SP1SSC2UGT = 300;
+        public ushort SP2SSC2UGT = 40;
 
+        public ushort SP1SSC1IF = 3800;
+        public ushort SP2SSC1IF = 388;
+        public ushort SP1SSC2IF = 3800;
+        public ushort SP2SSC2IF = 388;
+
+        public ushort SP1TW2000 = 2500;
+        public ushort rP1TW2000 = 2300;
+
+        public ushort rSLTRB3100 = 1024;
+        public byte cDirRB3100 = 0;
+        public byte OUT_ENCRB = 1;
     }    
-    
-    ////Subscribe Topic
-    protected override void SubscribeTopics()
-    {
-        //client.Subscribe(new string[] { "VPS_ARAPP" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
 
-        //client.Subscribe(new string[] { "tu.pham1814680@hcmut.edu.vn/Test02" }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+    //Function 
+    public void UpdateDataValiIFMToDA()
+    {
+        DataValiIFMToDAObj.valUGT = global_variables.sensorPositionUGT524;
+        DataValiIFMToDAObj.valIF = global_variables.sensorValueIF6123;
+        DataValiIFMToDAObj.valRB = global_variables.pulseRB3100;
+        DataValiIFMToDAObj.valTW = global_variables.sensorValueTW2000;
+        DataValiIFMToDAObj.valO5C = global_variables.sensorO5C500;
+        DataValiIFMToDAObj.valKT = global_variables.clickKT5112;
+
     }
-    //void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
-    //{
 
-    //    string msg_receive = System.Text.Encoding.UTF8.GetString(e.Message);
-    //    //textBox_Rev.Invoke((MethodInvoker)(() => textBox_Rev.Text = msg_receive));
-    //    text1.text = "nhan";
-    //}
-    protected override void DecodeMessage(string topic, byte[] message)
+    public void UpdateDataDAtoValiIFM()
     {
+        global_variables.SP1SSC1UGT = DataDAToValiIFMObj.SP1SSC1UGT;
+        global_variables.SP2SSC1UGT = DataDAToValiIFMObj.SP2SSC1UGT;
+        global_variables.SP1SSC2UGT = DataDAToValiIFMObj.SP1SSC2UGT;
+        global_variables.SP2SSC2UGT = DataDAToValiIFMObj.SP2SSC2UGT;
 
-        //string msg = System.Text.Encoding.UTF8.GetString(message);
-        //Debug.Log(msg);
-        //Data jsondata = Data.CreateFromJSON(msg);
-        string msg_receive = System.Text.Encoding.UTF8.GetString(message);
-        //Global_variable.Pos_UGT524_str = msg_receive;
-        //string[] msg_split = System.Text.Encoding.UTF8.GetString(message).Split(':');
-        //Debug.Log(jsondata1);
-        //Debug.Log(jsondata.tagName + ":" + jsondata.tagValue);
+        global_variables.SP1SSC1IF = DataDAToValiIFMObj.SP1SSC1IF;
+        global_variables.SP2SSC1IF = DataDAToValiIFMObj.SP2SSC1IF;
+        global_variables.SP1SSC2IF = DataDAToValiIFMObj.SP1SSC2IF;
+        global_variables.SP2SSC2IF = DataDAToValiIFMObj.SP2SSC2IF;
 
+        global_variables.SP1TW2000 = DataDAToValiIFMObj.SP1TW2000;
+        global_variables.rP1TW2000 = DataDAToValiIFMObj.rP1TW2000;
 
+        global_variables.rSLTRB3100 = DataDAToValiIFMObj.rSLTRB3100;
+        global_variables.cDirRB3100 = DataDAToValiIFMObj.cDirRB3100;
+        global_variables.OUTENCRB3100 = DataDAToValiIFMObj.OUT_ENCRB;
     }
 
     public void SubmitID()
     {
-        topicValiIFMPubToDA = "ValiIFMToDA: ID = " + inputFieldID.text;
-        Debug.Log(topicValiIFMPubToDA);
+        topicValiIFMToDA = "ValiIFMToDA: ID = " + inputFieldID.text;
+        topicDAtoValiIFM = "DAToValiIFM: ID = " + inputFieldID.text;
+        Debug.Log(topicValiIFMToDA);
     }
 
+    
 
     ////Publish Message 
     /* public void PubMQTT_Btn()

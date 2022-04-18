@@ -20,6 +20,23 @@ public class global_variables : MonoBehaviour
     public static bool sensorO5C500;
     public static bool clickKT5112;
 
+    //Desktop App to ValiIFM 
+    public static ushort SP1SSC1UGT;
+    public static ushort SP2SSC1UGT;
+    public static ushort SP1SSC2UGT;
+    public static ushort SP2SSC2UGT;
+
+    public static ushort SP1SSC1IF;
+    public static ushort SP2SSC1IF;
+    public static ushort SP1SSC2IF;
+    public static ushort SP2SSC2IF;
+
+    public static ushort SP1TW2000;
+    public static ushort rP1TW2000;
+
+    public static ushort rSLTRB3100;
+    public static byte cDirRB3100;
+    public static byte OUTENCRB3100;
 
 
 }
