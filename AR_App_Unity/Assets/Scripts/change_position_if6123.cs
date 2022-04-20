@@ -27,14 +27,15 @@ public class change_position_if6123 : MonoBehaviour
     {
 
         localPositionIF6123 = cubeIF6123.transform.localPosition.x;
-        calValueIF6123 = (Int16)(4095 * (localPositionIF6123 - 9.73) / (9.95375 - 9.73));
+        //calValueIF6123 = (Int16)(4095 * (localPositionIF6123 - 9.73) / (9.95375 - 9.73));
+        calValueIF6123 = (Int16)(4095 * (localPositionIF6123 - 9.751) / (9.94 - 9.751));
 
         if (calValueIF6123 >=0 && calValueIF6123 <= 4095)
         {
             global_variables.sensorValueIF6123 = calValueIF6123;
-            global_variables.sensorPositionIF6123 = calValueIF6123 * 3.75 / 4095;
+            global_variables.sensorPositionIF6123 = 0.375 + calValueIF6123 * (3.75-0.375) / 4095;
             valueTMProIF6123.text = global_variables.sensorValueIF6123.ToString();
-            positionTMProIF6123.text = global_variables.sensorPositionIF6123.ToString("0.##") + " mm";
+            positionTMProIF6123.text = global_variables.sensorPositionIF6123.ToString("0.###") + " mm";
             barValueIF6123.fillAmount = global_variables.sensorValueIF6123 * 1.0f / 4095.0f;
         }
         else if (calValueIF6123 > 4095)
@@ -44,8 +45,15 @@ public class change_position_if6123 : MonoBehaviour
             positionTMProIF6123.text = "NaN";
             barValueIF6123.fillAmount = 1.0f;
         }
+        else if (calValueIF6123 <0)
+        {
+            global_variables.sensorValueIF6123 = -8184;
+            valueTMProIF6123.text = global_variables.sensorValueIF6123.ToString() + " (UL)";
+            positionTMProIF6123.text = "NaN";
+            barValueIF6123.fillAmount = 0.0f;
+        }
 
-        
+
     }
     private void OnMouseDrag()
     {

@@ -15,7 +15,6 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     public Sprite connectError, connectOK;
     public Image iconConnect;
     public TextMeshProUGUI notifyConnect;
-    //public GameObject inputFieldID;
     public TMP_InputField inputFieldID;
 
 
@@ -89,9 +88,11 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     //Class
     public class DataValiIFMToDA
     {
-        public Int16 valUGT = 0, valIF = 0, valTW = 0, valRB = 0;
-        public bool valKT = false, valO5C = false;
-        public bool out1UGT = false, out2UGT = false, out1IF = false, out2IF = false, outTW = false;
+        //public Int16 valUGT = 0, valIF = 0, valTW = 0, valRB = 0;
+        //public bool valKT = false, valO5C = false;
+        //public bool out1UGT = false, out2UGT = false, out1IF = false, out2IF = false, outTW = false;
+        public short w0UGT, w1UGT, w0IF, w0TW, w1TW, w0RB;
+        public bool outKT, outO5C;
     }
 
     public class DataDAToValiIFM
@@ -117,12 +118,26 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     //Function 
     public void UpdateDataValiIFMToDA()
     {
-        DataValiIFMToDAObj.valUGT = global_variables.sensorPositionUGT524;
-        DataValiIFMToDAObj.valIF = global_variables.sensorValueIF6123;
-        DataValiIFMToDAObj.valRB = global_variables.pulseRB3100;
-        DataValiIFMToDAObj.valTW = global_variables.sensorValueTW2000;
-        DataValiIFMToDAObj.valO5C = global_variables.sensorO5C500;
-        DataValiIFMToDAObj.valKT = global_variables.clickKT5112;
+        //UGT524  --> Co lien ket cac bien out trong file update_value_config_valiifm
+        DataValiIFMToDAObj.w0UGT = global_variables.sensorPositionUGT524;
+        DataValiIFMToDAObj.w1UGT =  (short)(global_variables.out1UGT | global_variables.out2UGT);
+
+        DataValiIFMToDAObj.w0IF = (short)((global_variables.sensorValueIF6123 << 2)|(global_variables.out1IF | global_variables.out2IF));
+
+        DataValiIFMToDAObj.w0TW = global_variables.sensorValueTW2000;
+        DataValiIFMToDAObj.w1TW = global_variables.outTW;
+
+        DataValiIFMToDAObj.w0RB = global_variables.pulseRB3100;
+
+        DataValiIFMToDAObj.outO5C = global_variables.sensorO5C500;
+        DataValiIFMToDAObj.outKT = global_variables.clickKT5112;
+
+        //DataValiIFMToDAObj.valUGT = global_variables.sensorPositionUGT524;
+        //DataValiIFMToDAObj.valIF = global_variables.sensorValueIF6123;
+        //DataValiIFMToDAObj.valRB = global_variables.pulseRB3100;
+        //DataValiIFMToDAObj.valTW = global_variables.sensorValueTW2000;
+        //DataValiIFMToDAObj.valO5C = global_variables.sensorO5C500;
+        //DataValiIFMToDAObj.valKT = global_variables.clickKT5112;
 
     }
 

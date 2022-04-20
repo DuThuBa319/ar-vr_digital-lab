@@ -80,7 +80,7 @@ public class click_sensor : MonoBehaviour
 
         #endregion
 
-        #region CB
+       /* #region CB 
         if (startTimerCB)
         {
             timerCBCV += Time.deltaTime;
@@ -100,8 +100,8 @@ public class click_sensor : MonoBehaviour
             startTimerCB = false;
             timerCBCV = 0;
             countClickCB = 0;
-        }
-        #endregion
+        } 
+        #endregion */
 
         #region ToggleSwitch
         if (startTimerToggleSwitch)
@@ -204,8 +204,9 @@ public class click_sensor : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit) && hit.collider.tag == "CB")
             {
-                startTimerCB = true;
-                countClickCB++;
+                //startTimerCB = true;
+                //countClickCB++;
+                ShowPanel(ref showCB, gameObjectCB);
             }
 
             if (Physics.Raycast(ray, out hit) && hit.collider.tag == "ToggleSwitch")
