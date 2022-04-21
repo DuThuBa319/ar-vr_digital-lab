@@ -23,6 +23,15 @@ public class simulate_tw2000 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (global_variables.simulateTW == true)
+        {
+            sliderTW2000.gameObject.SetActive(true);
+        }    
+        else
+        {
+            sliderTW2000.gameObject.SetActive(false);
+        }    
+
         temperatureTW2000 = sliderTW2000.value * 1000.0f;
         global_variables.sensorValueTW2000 = (Int16)(temperatureTW2000 * 10);
         if (temperatureTW2000 <= 100)
@@ -46,15 +55,15 @@ public class simulate_tw2000 : MonoBehaviour
     }
     public void ShowHideSlider()
     {
-        if (showSlider == false)
-        {
-            sliderTW2000.gameObject.SetActive(true);
-            showSlider = true;
-        }    
-        else
-        {
-            sliderTW2000.gameObject.SetActive(false);
-            showSlider = false;
-        }    
+        //if (showSlider == false)
+        //{
+        //    sliderTW2000.gameObject.SetActive(true);
+        //    showSlider = true;
+        //}    
+        //else
+        //{
+        //    sliderTW2000.gameObject.SetActive(false);
+        //    showSlider = false;
+        //}    
     }    
 }

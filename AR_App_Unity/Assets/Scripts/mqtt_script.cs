@@ -113,6 +113,12 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         public ushort rSLTRB3100 = 1024;
         public byte cDirRB3100 = 0;
         public byte OUT_ENCRB = 1;
+
+        public ushort disUGT = 0;
+        public float disIF = 0;
+        public float temTW = 0;
+        public float angleRB = 0;
+        public byte byte65 = 0, byte67 = 0;
     }    
 
     //Function 
@@ -159,6 +165,13 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         global_variables.rSLTRB3100 = DataDAToValiIFMObj.rSLTRB3100;
         global_variables.cDirRB3100 = DataDAToValiIFMObj.cDirRB3100;
         global_variables.OUTENCRB3100 = DataDAToValiIFMObj.OUT_ENCRB;
+
+        global_variables.disUGT = DataDAToValiIFMObj.disUGT;
+        global_variables.disIF = DataDAToValiIFMObj.disIF;
+        global_variables.temTW = DataDAToValiIFMObj.temTW;
+        global_variables.angleRB = DataDAToValiIFMObj.angleRB;
+        global_variables.byte65 = DataDAToValiIFMObj.byte65;
+        global_variables.byte67 = DataDAToValiIFMObj.byte67;
     }
 
     public void SubmitID()

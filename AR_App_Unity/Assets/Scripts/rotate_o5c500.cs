@@ -6,8 +6,7 @@ using UnityEngine.UI;
 
 public class rotate_o5c500 : MonoBehaviour
 {
-    public GameObject colourPipe, diskMotor;
-    public float rotSpeechDiskMotor;   //100
+    public GameObject colourPipe;
     public float rotSpeechColourPipe; //10
 
     public GameObject gameObjectParent, gameObjectRotate;
@@ -25,8 +24,7 @@ public class rotate_o5c500 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        diskMotor.transform.Rotate(0f, 1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
-
+        
         a1 = gameObjectRotate.transform.eulerAngles.z;
         a2 = gameObjectParent.transform.parent.eulerAngles.z;
         angle = a1 - a2;

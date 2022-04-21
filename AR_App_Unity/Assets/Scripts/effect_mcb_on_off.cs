@@ -14,7 +14,8 @@ public class effect_mcb_on_off : MonoBehaviour
     public Renderer light1_1_X04_AL1102_Green, light1_2_X04_AL1102_Green, light2_1_X04_AL1102_Orange, light2_2_X04_AL1102_Orange;
     public Renderer light1_X1_AL2330, light2_X1_AL233, light1_1_X31_AL2330_Up, light1_2_X31_AL2330_Down, light2_1_X31_AL2330_Up, light2_2_X31_AL2330_Down;
 
-    
+    public Sprite tickOn, tickOff;
+    public Image tickDN4012, tickAL2401, tickO5C, tickKT, tickTW, tickAL1102, tickRB, tickUGT, tickIF, tickAL2330; // - Motor, Light, Switch, Relay
 
     // Start is called before the first frame update
     void Start()
@@ -58,6 +59,18 @@ public class effect_mcb_on_off : MonoBehaviour
             light2_1_X31_AL2330_Up.material = lightGreenOn;
             light2_2_X31_AL2330_Down.material = lightGreenOn;
 
+            tickDN4012.sprite = tickOn;
+            tickAL2401.sprite = tickOn;
+            tickO5C.sprite = tickOn;
+            tickKT.sprite = tickOn;
+            tickTW.sprite = tickOn;
+            tickAL1102.sprite = tickOn;
+            tickRB.sprite = tickOn;
+            tickUGT.sprite = tickOn;
+            tickIF.sprite = tickOn;
+            tickAL2330.sprite = tickOn;
+
+
         }
         else
         {
@@ -90,6 +103,17 @@ public class effect_mcb_on_off : MonoBehaviour
             light1_2_X31_AL2330_Down.material = lightOff;
             light2_1_X31_AL2330_Up.material = lightOff;
             light2_2_X31_AL2330_Down.material = lightOff;
+
+            tickDN4012.sprite = tickOff;
+            tickAL2401.sprite = tickOff;
+            tickO5C.sprite = tickOff;
+            tickKT.sprite = tickOff;
+            tickTW.sprite = tickOff;
+            tickAL1102.sprite = tickOff;
+            tickRB.sprite = tickOff;
+            tickUGT.sprite = tickOff;
+            tickIF.sprite = tickOff;
+            tickAL2330.sprite = tickOff;
         }
     }
 }

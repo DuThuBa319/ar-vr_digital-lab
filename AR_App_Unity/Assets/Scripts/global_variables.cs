@@ -40,6 +40,15 @@ public class global_variables : MonoBehaviour
     public static byte cDirRB3100;
     public static byte OUTENCRB3100;
 
+    public static ushort disUGT;
+    public static float disIF;
+    public static float temTW;
+    public static float angleRB;
+    public static byte byte65, byte67;
+
     //MCB
     public static bool onMCB;
+
+    //Simulate
+    public static bool simulateTW;
 }
