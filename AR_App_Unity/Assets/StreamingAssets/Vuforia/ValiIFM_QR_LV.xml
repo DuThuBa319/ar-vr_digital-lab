@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="Relay" size="10.000000 10.000000" />
+    <ImageTarget name="MCB" size="10.000000 10.000000" />
+    <ImageTarget name="Motor" size="10.000000 10.000000" />
+    <ImageTarget name="Light" size="10.000000 10.000000" />
+    <ImageTarget name="DN4012" size="10.000000 10.000000" />
+    <ImageTarget name="KT5112" size="10.000000 10.000000" />
+    <ImageTarget name="O5C500" size="10.000000 10.000000" />
+    <ImageTarget name="RB3100" size="10.000000 10.000000" />
+    <ImageTarget name="TW2000" size="10.000000 10.000000" />
+    <ImageTarget name="UGT524" size="10.000000 10.000000" />
+    <ImageTarget name="IF6123" size="10.000000 10.000000" />
+    <ImageTarget name="AL2330" size="10.000000 10.000000" />
+    <ImageTarget name="AL1102" size="10.000000 10.000000" />
+    <ImageTarget name="AL2401" size="10.000000 10.000000" />
+  </Tracking>
+</QCARConfig>
