@@ -46,6 +46,37 @@ public class global_variables : MonoBehaviour
     public static float angleRB;
     public static byte byte65, byte67;
 
+    //Desktop App to Real ValiIFM
+    public static ushort realW0UGT;
+    public static ushort realW1UGT;
+    public static ushort realW0IF;
+    public static float realDisIF;
+    public static ushort realW0TW;
+    public static ushort realW1TW;
+    public static float realTemTW;
+    public static ushort realW0RB;
+    public static float realAngleRB;
+    public static byte realByte65, realByte67, realByte68;
+
+    public static ushort realSP1SSC1UGT;
+    public static ushort realSP2SSC1UGT;
+    public static ushort realSP1SSC2UGT;
+    public static ushort realSP2SSC2UGT;
+
+    public static ushort realSP1SSC1IF;
+    public static ushort realSP2SSC1IF;
+    public static ushort realSP1SSC2IF;
+    public static ushort realSP2SSC2IF;
+
+    public static ushort realSP1TW2000;
+    public static ushort realrP1TW2000;
+
+    public static ushort realrSLTRB3100;
+    public static byte realcDirRB3100;
+    public static byte realOUTENCRB3100;
+
+
+
     //MCB
     public static bool onMCB;
 
