@@ -177,5 +177,7 @@ public class update_value_config_valiifm : MonoBehaviour
             OUT_ENC_RB3100.text = "HTL";
         }
 
+
+
     }
 }

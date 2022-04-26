@@ -61,7 +61,8 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
 
         UpdateDataValiIFMToDA();
         string jsonValiIFMPub = JsonUtility.ToJson(DataValiIFMToDAObj, true);
-        UpdateDataDAtoValiIFM();
+        //UpdateDataDAtoValiIFM();
+        
 
         t = Time.time - startTime;
         if (t >= 0.1f)
@@ -85,25 +86,23 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     protected override void DecodeMessage(string topic, byte[] message)
     {
         jsonDataReceive = System.Text.Encoding.UTF8.GetString(message);
-        //DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
-        try
+        if (jsonDataReceive.Contains("idV1"))
         {
             DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
-        }
-        catch(Exception ex) { }
-        try
+            UpdateDataDAtoValiIFM();
+        }    
+        //DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
+        if (jsonDataReceive.Contains("idR1"))
         {
             DataValueDAToRValiIFMObj = JsonUtility.FromJson<DataValueDAToRValiIFM>(jsonDataReceive);
             UpdateDataValueDAToRValiIFMObj();
-        }
-        catch (Exception ex) { }
-        try
+        }    
+        else if (jsonDataReceive.Contains("idR2"))
         {
             DataConfParaDAToRValiIFMObj = JsonUtility.FromJson<DataConfParaDAToRValiIFM>(jsonDataReceive);
             UpdateDataConfParaDAToRValiIFMObj();
-        }
-        catch (Exception ex) { }
-
+        }   
+        
     }
 
     //Class
@@ -252,6 +251,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         global_variables.realrSLTRB3100 = DataConfParaDAToRValiIFMObj.rSLTRB3100;
         global_variables.realcDirRB3100 = DataConfParaDAToRValiIFMObj.cDirRB3100;
         global_variables.realOUTENCRB3100 = DataConfParaDAToRValiIFMObj.OUT_ENCRB;
+        Debug.Log("resolution ==========" + global_variables.rSLTRB3100.ToString());
     }    
 
     public void SubmitID()
@@ -259,6 +259,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         topicValiIFMToDA = "ValiIFMToDA: ID = " + inputFieldID.text;
         topicDAtoValiIFM = "DAToValiIFM: ID = " + inputFieldID.text;
         Debug.Log(topicValiIFMToDA);
+        SubscribeTopics();
     }
 
 
