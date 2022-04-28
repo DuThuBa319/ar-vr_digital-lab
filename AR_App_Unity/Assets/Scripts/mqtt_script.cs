@@ -18,92 +18,25 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     public TMP_InputField inputFieldID;
 
 
-    DataValiIFMToDA DataValiIFMToDAObj = new DataValiIFMToDA();
-    DataDAToValiIFM DataDAToValiIFMObj = new DataDAToValiIFM();
-    DataValueDAToRValiIFM DataValueDAToRValiIFMObj = new DataValueDAToRValiIFM();
-    DataConfParaDAToRValiIFM DataConfParaDAToRValiIFMObj = new DataConfParaDAToRValiIFM();
+
+    public DataDAToValiIFM DataDAToValiIFMObj = new DataDAToValiIFM();
+    public DataDAToValiPLC DataDAToValiPLCObj = new DataDAToValiPLC();
+    //
+    public DataValiIFMToDA DataValiIFMToDAObj = new DataValiIFMToDA();
+    public DataValiPLCToDA DataValiPLCToDAObj = new DataValiPLCToDA();
+
+    public DataValueDAToRValiIFM DataValueDAToRValiIFMObj = new DataValueDAToRValiIFM();
+    public DataConfParaDAToRValiIFM DataConfParaDAToRValiIFMObj = new DataConfParaDAToRValiIFM();
+    //
+    public DataDAToRValiPLC DataDAToRValiPLCObj = new DataDAToRValiPLC();
+    public DataRValiPLCToDA DataRValiPLCToDAObj = new DataRValiPLCToDA();
 
 
     string msg_pub;
     float startTime, t;
     bool mqttConnected;
     string topicValiIFMToDA, topicDAtoValiIFM, ID;
-    string jsonDataReceive;
-
-    protected override void Start()
-    {
-        base.Start();
-        startTime = Time.time;
-
-        topicValiIFMToDA = "ValiIFMToDA: ID = 0";
-        topicDAtoValiIFM = "DAToValiIFM: ID = 0";
-    }
-
-    protected override void OnConnected()
-    {
-        base.OnConnected();
-        Debug.Log("Connected");
-        mqttConnected = true;
-        iconConnect.sprite = connectOK;
-        notifyConnect.text = "Kết nối thành công!";
-        //Luu y cmt dong 313 trong file M2MqttUnityClient de ko bi bao loi khi ko ket noi duoc Broker
-    }
-    protected override void OnDisconnected()
-    {
-        base.OnDisconnected();
-        mqttConnected = false;
-        iconConnect.sprite = connectError;
-        notifyConnect.text = "Kết nối không thành công! Bạn vui lòng kiểm tra lại!";
-    }
-    protected override void Update()
-    {
-        base.Update();
-
-        UpdateDataValiIFMToDA();
-        string jsonValiIFMPub = JsonUtility.ToJson(DataValiIFMToDAObj, true);
-        //UpdateDataDAtoValiIFM();
-        
-
-        t = Time.time - startTime;
-        if (t >= 0.1f)
-        {
-            if (mqttConnected)
-            {
-                client.Publish(topicValiIFMToDA, System.Text.Encoding.UTF8.GetBytes(jsonValiIFMPub), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
-            }
-            startTime = Time.time;
-        }
-
-
-    }
-
-    ////Subscribe Topic + Decode
-    protected override void SubscribeTopics()
-    {
-        client.Subscribe(new string[] { topicDAtoValiIFM }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
-    }
-
-    protected override void DecodeMessage(string topic, byte[] message)
-    {
-        jsonDataReceive = System.Text.Encoding.UTF8.GetString(message);
-        if (jsonDataReceive.Contains("idV1"))
-        {
-            DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
-            UpdateDataDAtoValiIFM();
-        }    
-        //DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
-        if (jsonDataReceive.Contains("idR1"))
-        {
-            DataValueDAToRValiIFMObj = JsonUtility.FromJson<DataValueDAToRValiIFM>(jsonDataReceive);
-            UpdateDataValueDAToRValiIFMObj();
-        }    
-        else if (jsonDataReceive.Contains("idR2"))
-        {
-            DataConfParaDAToRValiIFMObj = JsonUtility.FromJson<DataConfParaDAToRValiIFM>(jsonDataReceive);
-            UpdateDataConfParaDAToRValiIFMObj();
-        }   
-        
-    }
+    string jsonDataReceive, jsonPublish;
 
     //Class
     //----------------------------------------------------------------------
@@ -133,7 +66,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         public float angleRB;
         public byte byte65, byte67;
     }
-    public class DataDAtoValiPLC
+    public class DataDAToValiPLC
     {
         public byte idV2;
         public byte DI, DO;
@@ -171,7 +104,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         public byte byte65;
         public byte byte67;
         public byte byte68;
-    }    
+    }
     public class DataConfParaDAToRValiIFM
     {
         public byte idR2;
@@ -206,6 +139,96 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     }
     //
 
+
+    protected override void Start()
+    {
+        base.Start();
+        startTime = Time.time;
+
+        topicValiIFMToDA = "ValiIFMToDA: ID = 0";
+        topicDAtoValiIFM = "DAToValiIFM: ID = 0";
+    }
+
+    protected override void OnConnected()
+    {
+        base.OnConnected();
+        Debug.Log("Connected");
+        mqttConnected = true;
+        iconConnect.sprite = connectOK;
+        notifyConnect.text = "Kết nối thành công!";
+        //Luu y cmt dong 313 trong file M2MqttUnityClient de ko bi bao loi khi ko ket noi duoc Broker
+    }
+    protected override void OnDisconnected()
+    {
+        base.OnDisconnected();
+        mqttConnected = false;
+        iconConnect.sprite = connectError;
+        notifyConnect.text = "Kết nối không thành công! Bạn vui lòng kiểm tra lại!";
+    }
+    protected override void Update()
+    {
+        base.Update();
+
+        
+        //jsonPublish = JsonUtility.ToJson(DataValiIFMToDAObj, true);
+        //UpdateDataDAtoValiIFM();
+        
+
+        t = Time.time - startTime;
+        if (t >= 0.1f)
+        {
+            if (mqttConnected)
+            {
+                UpdateDataValiIFMToDA();
+                client.Publish(topicValiIFMToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                UpdateDataValiPLCToDA();
+                client.Publish(topicValiIFMToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+
+            }
+            startTime = Time.time;
+        }
+
+
+    }
+
+    ////Subscribe Topic + Decode
+    protected override void SubscribeTopics()
+    {
+        client.Subscribe(new string[] { topicDAtoValiIFM }, new byte[] { MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE });
+    }
+
+    protected override void DecodeMessage(string topic, byte[] message)
+    {
+        jsonDataReceive = System.Text.Encoding.UTF8.GetString(message);
+        if (jsonDataReceive.Contains("idV1"))
+        {
+            DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
+            UpdateDataDAtoValiIFMObj();
+        }  
+        else if (jsonDataReceive.Contains("idV2"))
+        {
+            DataDAToValiPLCObj = JsonUtility.FromJson<DataDAToValiPLC>(jsonDataReceive); 
+            UpdateDataDAtoValiPLCObj();
+        }    
+        //DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
+        if (jsonDataReceive.Contains("idR1"))
+        {
+            DataValueDAToRValiIFMObj = JsonUtility.FromJson<DataValueDAToRValiIFM>(jsonDataReceive);
+            UpdateDataValueDAToRValiIFMObj();
+        }    
+        else if (jsonDataReceive.Contains("idR2"))
+        {
+            DataConfParaDAToRValiIFMObj = JsonUtility.FromJson<DataConfParaDAToRValiIFM>(jsonDataReceive);
+            UpdateDataConfParaDAToRValiIFMObj();
+        }   
+        else if (jsonDataReceive.Contains("idR3"))
+        {
+            DataDAToRValiPLCObj = JsonUtility.FromJson<DataDAToRValiPLC>(jsonDataReceive);
+            UpdateDataDAToRValiPLCObj();
+        }    
+    }
+
+
     //Function 
     public void UpdateDataValiIFMToDA()
     {
@@ -222,9 +245,20 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
 
         DataValiIFMToDAObj.outO5C = global_variables.sensorO5C500;
         DataValiIFMToDAObj.outKT = global_variables.clickKT5112;
+
+        jsonPublish = JsonUtility.ToJson(DataValiIFMToDAObj, true);
     }
 
-    public void UpdateDataDAtoValiIFM()
+    public void UpdateDataValiPLCToDA()
+    {
+        DataValiPLCToDAObj.DI = global_variables.DI;
+        DataValiPLCToDAObj.AI = global_variables.AI;
+
+        jsonPublish = JsonUtility.ToJson(DataValiPLCToDAObj, true);
+    }    
+
+    // 
+    public void UpdateDataDAtoValiIFMObj()
     {
         global_variables.SP1SSC1UGT = DataDAToValiIFMObj.SP1SSC1UGT;
         global_variables.SP2SSC1UGT = DataDAToValiIFMObj.SP2SSC1UGT;
@@ -250,6 +284,12 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         global_variables.byte65 = DataDAToValiIFMObj.byte65;
         global_variables.byte67 = DataDAToValiIFMObj.byte67;
     }
+                
+    public void UpdateDataDAtoValiPLCObj()
+    {
+        global_variables.DO = DataDAToValiPLCObj.DO;
+        global_variables.AO = DataDAToValiPLCObj.AO;
+    }    
 
     public void UpdateDataValueDAToRValiIFMObj()
     {
@@ -287,6 +327,12 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         global_variables.realcDirRB3100 = DataConfParaDAToRValiIFMObj.cDirRB3100;
         global_variables.realOUTENCRB3100 = DataConfParaDAToRValiIFMObj.OUT_ENCRB;
         Debug.Log("resolution ==========" + global_variables.rSLTRB3100.ToString());
+    }
+
+    public void UpdateDataDAToRValiPLCObj()
+    {
+        global_variables.realDO = DataDAToRValiPLCObj.DO;
+        global_variables.realAO = DataDAToRValiPLCObj.AO;
     }    
 
     public void SubmitID()
