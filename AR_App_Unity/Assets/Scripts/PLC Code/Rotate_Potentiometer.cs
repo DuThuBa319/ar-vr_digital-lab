@@ -5,9 +5,9 @@ using UnityEngine;
 public class Rotate_Potentiometer : MonoBehaviour
 {
     float rotX;
-    float degree;
+    float degree, a1, a2;
     public float speed;
-    public GameObject potentiometer;
+    public GameObject potentiometer, potentiometerParent;
     void Update()
     {
 
@@ -18,7 +18,7 @@ public class Rotate_Potentiometer : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             rotX = Input.GetAxis("Mouse X") * speed;
-
+            /*
             if (potentiometer.transform.localEulerAngles.z >= 280)
             {
                 degree = potentiometer.transform.localEulerAngles.z - 307;
@@ -28,7 +28,10 @@ public class Rotate_Potentiometer : MonoBehaviour
             {
                 potentiometer.transform.Rotate(Vector3.forward, rotX);
             }
-            else potentiometer.transform.Rotate(Vector3.forward, 0.0f); 
+            else potentiometer.transform.Rotate(Vector3.forward, 0.0f); */
+            a1 = potentiometer.transform.eulerAngles.z;
+            a2 = potentiometerParent.transform.parent.eulerAngles.z;
+            degree = a1 - a2;
             Debug.Log(degree);
         }
     }
