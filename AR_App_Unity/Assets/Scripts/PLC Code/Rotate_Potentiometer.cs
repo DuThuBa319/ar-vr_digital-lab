@@ -1,38 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using System;
 
 public class Rotate_Potentiometer : MonoBehaviour
 {
     float rotX;
-    float degree, a1, a2;
+    float degree, a1, a,a2, calDegree;
     public float speed;
-    public GameObject potentiometer, potentiometerParent;
+    public GameObject potentiometer, gameObjParent, gameObjRotate;
+    public TextMeshProUGUI ledAO;
     void Update()
     {
+        a1 = gameObjRotate.transform.eulerAngles.z;
+        a2 = gameObjParent.transform.parent.eulerAngles.z;
+        degree = a1 - a2;
+         
+        
+        if (degree <0 )
+        {
+            calDegree = degree + 360;
+        }
+        else
+        {
+            calDegree = degree;
+        }
+        //Debug.Log("degree==="+degree);
+        Debug.Log("CalDegree===" + calDegree);
+        
+        if (calDegree >= 0 && calDegree <= 297)
+        {
+            potentiometer.transform.localEulerAngles = new Vector3(0.0f, 0.0f, degree);
+        }
+        
+        else if (calDegree >297 && calDegree < 330)
+        {
+            potentiometer.transform.localEulerAngles = new Vector3(0.0f, 0.0f, 297.0f);
+        }
+        else if (calDegree > 330)
+        {
+            potentiometer.transform.localEulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
+        }
 
-
+        ledAO.text = (calDegree / 297.0f * 10.0f).ToString("0.0");
     }
     private void OnMouseDrag()
-    {
-        if (Input.GetMouseButton(0))
+    {  
+        if ((calDegree >= 0 && calDegree <= 297)) 
         {
-            rotX = Input.GetAxis("Mouse X") * speed;
-            /*
-            if (potentiometer.transform.localEulerAngles.z >= 280)
-            {
-                degree = potentiometer.transform.localEulerAngles.z - 307;
-            }
-            else degree = potentiometer.transform.localEulerAngles.z + 53;
-            if ((degree <= 300 || rotX < 0) && (degree >= 0 || rotX > 0))
-            {
-                potentiometer.transform.Rotate(Vector3.forward, rotX);
-            }
-            else potentiometer.transform.Rotate(Vector3.forward, 0.0f); */
-            a1 = potentiometer.transform.eulerAngles.z;
-            a2 = potentiometerParent.transform.parent.eulerAngles.z;
-            degree = a1 - a2;
-            Debug.Log(degree);
+            float rotX = Input.GetAxis("Mouse X") * speed;
+            transform.Rotate(Vector3.forward, rotX);
         }
     }
 }
