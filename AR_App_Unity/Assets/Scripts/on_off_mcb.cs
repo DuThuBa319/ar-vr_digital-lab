@@ -5,13 +5,14 @@ using UnityEngine.UI;
 using TMPro;
 
 public class on_off_mcb : MonoBehaviour
-{
+{   /*
     public GameObject objOnMCB, objOffMCB;
     public TextMeshProUGUI textButtonOnOffMCB;
     public Image statusOnOffMCB;
     public Sprite spriteOnMCB, spriteOffMCB;
 
     public GameObject cubeUGT524, cubeIF6123;
+    //bool switchMCBPLC;
     //bool showCubeUGT524, showCubeIF6123;
 
     // Start is called before the first frame update
@@ -41,9 +42,9 @@ public class on_off_mcb : MonoBehaviour
 
             global_variables.onMCB = true;
 
-            
 
-        }    
+
+        }
         else
         {
             objOnMCB.gameObject.SetActive(false);
@@ -55,7 +56,8 @@ public class on_off_mcb : MonoBehaviour
             cubeUGT524.gameObject.SetActive(false);
             cubeIF6123.gameObject.SetActive(false);
             global_variables.simulateTW = false;
-        }    
-
-    }    
+        }
+        
+    }
+    */
 }

@@ -31,6 +31,25 @@ TagManager:
   - WS_MOTOR_RL
   - WS_OL_GL
   - AL2330_C
+  - Panel_Switch
+  - Switch_0
+  - Switch_4
+  - Switch_6
+  - Switch_3
+  - Switch_2
+  - Switch_1
+  - Switch_5
+  - Switch_7
+  - MCB
+  - Stepper_Motor_Driver
+  - HMI
+  - Stepper_Motor
+  - PLC_Master
+  - Encoder
+  - Scalance
+  - PLC_Slave
+  - Switch_MCB_PLC
+  - Switch_MCB_IFM
   layers:
   - Default
   - TransparentFX

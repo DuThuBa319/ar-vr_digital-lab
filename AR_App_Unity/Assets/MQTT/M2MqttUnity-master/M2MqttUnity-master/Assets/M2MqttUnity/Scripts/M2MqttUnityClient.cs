@@ -89,6 +89,7 @@ namespace M2MqttUnity
             {
                 StartCoroutine(DoConnect());
             }
+            
         }
 
         /// <summary>

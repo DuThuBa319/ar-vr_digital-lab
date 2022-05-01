@@ -16,6 +16,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     public Image iconConnect;
     public TextMeshProUGUI notifyConnect;
     public TMP_InputField inputFieldID;
+    public TMP_InputField addressInputField;
 
 
 
@@ -179,10 +180,23 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         {
             if (mqttConnected)
             {
-                UpdateDataValiIFMToDA();
-                client.Publish(topicValiIFMToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
-                UpdateDataValiPLCToDA();
-                client.Publish(topicValiIFMToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                if (global_variables.onMCB)
+                {
+                    UpdateDataValiIFMToDA();
+                    client.Publish(topicValiIFMToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                }    
+                if (global_variables.onMCBPLC)
+                {
+                    UpdateDataValiPLCToDA();
+                    client.Publish(topicValiIFMToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                }   
+                else
+                {
+                    UpdateDataValiPLCToDAMCBOff();
+                    client.Publish(topicValiIFMToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                }    
+                
+                
 
             }
             startTime = Time.time;
@@ -199,7 +213,11 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
 
     protected override void DecodeMessage(string topic, byte[] message)
     {
-        jsonDataReceive = System.Text.Encoding.UTF8.GetString(message);
+        if (message != null)
+        {
+            jsonDataReceive = System.Text.Encoding.UTF8.GetString(message);
+        }    
+        
         if (jsonDataReceive.Contains("idV1"))
         {
             DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
@@ -256,7 +274,13 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
 
         jsonPublish = JsonUtility.ToJson(DataValiPLCToDAObj, true);
     }    
+    public void UpdateDataValiPLCToDAMCBOff()
+    {
+        DataValiPLCToDAObj.DI = 0;
+        DataValiPLCToDAObj.AI = 0;
 
+        jsonPublish = JsonUtility.ToJson(DataValiPLCToDAObj, true);
+    }    
     // 
     public void UpdateDataDAtoValiIFMObj()
     {
@@ -343,5 +367,21 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         SubscribeTopics();
     }
 
+    //public void ConnectBroker()
+    //{
+    //    brokerAddress = brokerAddressIF.text;
+    //    //M2MqttUnityClient.brokerPort = int.Parse(brokerPortIF.text);
+    //    mqttUserName = usernameIF.text;
+    //    mqttPassword = passwordIF.text;
+    //    Connect();
 
+    //}
+    //
+    public void SetBrokerAddress(string brokerAddress)
+    {
+        if (addressInputField)
+        {
+            this.brokerAddress = brokerAddress;
+        }
+    }
 }

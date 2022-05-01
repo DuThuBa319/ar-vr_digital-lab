@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="qcar_config.xsd">
+  <Tracking>
+    <ImageTarget name="DriverTB6600" size="10.000000 10.000000" />
+    <ImageTarget name="Encoder" size="10.000000 10.000000" />
+    <ImageTarget name="HMI" size="10.000000 10.000000" />
+    <ImageTarget name="PanelSwitch" size="10.000000 10.000000" />
+    <ImageTarget name="PLC_Master" size="10.000000 10.000000" />
+    <ImageTarget name="PLC_Slave" size="10.000000 10.000000" />
+    <ImageTarget name="SCALANCE" size="10.000000 10.000000" />
+    <ImageTarget name="StepperMotor" size="10.000000 10.000000" />
+  </Tracking>
+</QCARConfig>

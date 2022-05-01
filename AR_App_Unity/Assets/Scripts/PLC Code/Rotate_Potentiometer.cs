@@ -43,7 +43,8 @@ public class Rotate_Potentiometer : MonoBehaviour
             potentiometer.transform.localEulerAngles = new Vector3(0.0f, 0.0f, 0.0f);
         }
 
-        ledAO.text = (calDegree / 297.0f * 10.0f).ToString("0.0");
+        //ledAO.text = (calDegree / 297.0f * 10.0f).ToString("0.0");
+        global_variables.AI = (ushort)((calDegree/297.0f)*27648);
     }
     private void OnMouseDrag()
     {  
