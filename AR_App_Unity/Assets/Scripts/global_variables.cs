@@ -79,15 +79,15 @@ public class global_variables : MonoBehaviour
     public static byte DO;
     public static ushort AO;
 
+    public static byte realDI;
     public static byte realDO;
+    public static ushort realAI;
     public static float realAO;
 
     // AR App --> DA --> ValiPLC
     public static byte DI;
     public static ushort AI;
 
-    public static byte realDI;
-    public static ushort realAI;
 
     //MCB
     public static bool onMCB;

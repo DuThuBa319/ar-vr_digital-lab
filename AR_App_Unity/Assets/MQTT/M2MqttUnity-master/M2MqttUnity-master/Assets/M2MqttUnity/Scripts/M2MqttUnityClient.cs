@@ -88,8 +88,7 @@ namespace M2MqttUnity
             if (client == null || !client.IsConnected)
             {
                 StartCoroutine(DoConnect());
-            }
-            
+            }            
         }
 
         /// <summary>
