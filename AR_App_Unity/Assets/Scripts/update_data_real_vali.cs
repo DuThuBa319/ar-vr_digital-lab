@@ -95,7 +95,7 @@ public class update_data_real_vali : MonoBehaviour
         {
             outTW.sprite = tickON;
         }
-        valTW.text = global_variables.realW0TW.ToString();
+        valTW.text = (global_variables.realW0TW/10.0f).ToString("0.0");
         valTW_AL1102.text = global_variables.realW0TW.ToString();
         if (global_variables.realW0TW <= 100)
         {

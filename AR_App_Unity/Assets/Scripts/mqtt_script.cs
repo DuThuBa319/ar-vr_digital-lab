@@ -127,8 +127,8 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         public byte idR3;
         public byte DI, DO;
         public ushort AI, AO;
-        //public float velSP, vel, posSP, pos;
-
+        public float velSP, vel, posSP, pos;
+        public bool LS1, LS2;
     }
     //
     public class DataRValiPLCToDA
@@ -364,6 +364,14 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         global_variables.realDO = DataDAToRValiPLCObj.DO;
         global_variables.realAI = DataDAToRValiPLCObj.AI;
         global_variables.realAO = DataDAToRValiPLCObj.AO;
+        global_variables.realVelSP = DataDAToRValiPLCObj.velSP;
+        global_variables.realVel = DataDAToRValiPLCObj.vel;
+        global_variables.realPosSP = DataDAToRValiPLCObj.posSP;
+        global_variables.realPos = DataDAToRValiPLCObj.pos;
+        global_variables.realLS1 = DataDAToRValiPLCObj.LS1;
+        global_variables.realLS2 = DataDAToRValiPLCObj.LS2;
+        //Debug.Log(global_variables.realAI);
+        //Debug.Log(global_variables.realAO);
     }    
 
     public void SubmitID()
