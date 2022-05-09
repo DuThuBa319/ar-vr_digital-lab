@@ -78,6 +78,17 @@ public class global_variables : MonoBehaviour
     //ValiPLC + Real ValiPLC --> DA --> AR App
     public static byte DO;
     public static ushort AO;
+    public static float velSP;
+    public static float posSP;
+    public static float vel;
+    public static float pos;
+    public static float posHome;
+    public static float posTotal;
+
+    //public static float tSecond;
+    //public static bool exeMoveAbs;
+
+
 
     public static byte realDI;
     public static byte realDO;
@@ -87,6 +98,8 @@ public class global_variables : MonoBehaviour
     public static float realVel;
     public static float realPosSP;
     public static float realPos;
+    public static float realVelEnc;
+    public static float realPosEnc;
     public static bool realLS1;
     public static bool realLS2;
 

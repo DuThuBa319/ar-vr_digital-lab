@@ -71,7 +71,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         public byte idV2;
         public byte DI, DO;
         public ushort AI, AO;
-        //public float velSP, vel, posSP, pos;
+        public float velSP, vel, posSP, pos, posHome;
     }
     //
     public class DataValiIFMToDA
@@ -127,7 +127,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         public byte idR3;
         public byte DI, DO;
         public ushort AI, AO;
-        public float velSP, vel, posSP, pos;
+        public float velSP, vel, posSP, pos, velEnc, posEnc;
         public bool LS1, LS2;
     }
     //
@@ -318,6 +318,12 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     {
         global_variables.DO = DataDAToValiPLCObj.DO;
         global_variables.AO = DataDAToValiPLCObj.AO;
+        global_variables.velSP = DataDAToValiPLCObj.velSP;
+        //
+        global_variables.posSP = DataDAToValiPLCObj.posSP;
+        global_variables.pos = DataDAToValiPLCObj.pos;
+        global_variables.posHome = DataDAToValiPLCObj.posHome;
+        global_variables.posTotal = global_variables.posHome + global_variables.pos;
     }    
 
     public void UpdateDataValueDAToRValiIFMObj()
@@ -368,10 +374,10 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         global_variables.realVel = DataDAToRValiPLCObj.vel;
         global_variables.realPosSP = DataDAToRValiPLCObj.posSP;
         global_variables.realPos = DataDAToRValiPLCObj.pos;
+        global_variables.realVelEnc = DataDAToRValiPLCObj.velEnc;
+        global_variables.realPosEnc = DataDAToRValiPLCObj.posEnc;
         global_variables.realLS1 = DataDAToRValiPLCObj.LS1;
         global_variables.realLS2 = DataDAToRValiPLCObj.LS2;
-        //Debug.Log(global_variables.realAI);
-        //Debug.Log(global_variables.realAO);
     }    
 
     public void SubmitID()

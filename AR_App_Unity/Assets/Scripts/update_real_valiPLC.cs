@@ -11,7 +11,7 @@ public class update_real_valiPLC : MonoBehaviour
     public Image switch0, switch1, switch2, switch3, switch4, switch5, switch6, switch7, LS1, LS2;
     public Image led0, led1, led2, led3, led4, led5, led6, led7;
     public Image circleBarAI;
-    public TextMeshProUGUI ledAO, txtCircleBarAI, velSP, vel, posSP, pos;
+    public TextMeshProUGUI ledAO, txtCircleBarAI, velSP, vel, posSP, pos, velEncSP, posEncSP, velEnc, posEnc;
     float tempCal2;
     public GameObject vitme; //-90.8 --> 98.9 (LS1: -99.1, LS2: 107.9)
     float tempPos;
@@ -183,7 +183,12 @@ public class update_real_valiPLC : MonoBehaviour
         posSP.text = global_variables.realPosSP.ToString("0.00") + " mm";
         vel.text = global_variables.realVel.ToString("0.00") + " mm/s";
         pos.text = global_variables.realPos.ToString("0.00") + " mm";
-        
+
+        velEncSP.text = global_variables.realVelSP.ToString("0.00") + " mm/s";
+        posEncSP.text = global_variables.realPosSP.ToString("0.00") + " mm";
+        velEnc.text = global_variables.realVelEnc.ToString("0.00") + " mm/s";
+        posEnc.text = global_variables.realPosEnc.ToString("0.00") + " mm";
+
         tempPos = 1.897f * global_variables.realPos - 90.8f;
         if (tempPos > -99.1f && tempPos < 107.9f)
         {
