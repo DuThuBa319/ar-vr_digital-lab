@@ -10,6 +10,7 @@ public class update_data_real_vali : MonoBehaviour
     public Image out1UGT, out2UGT, out1IF, out2IF, outTW, outO5C, outOnKT, outOffKT;
     public Sprite tickON, tickOFF, blueO5C, grayO5C, redLight, greenLight, orangeLight, grayLight;
     public Image prgBarUGT, prgBarIF, circleBarTW, clockwiseRB, picRedLight, picGreenLight, picOrangeLight, statusMotor;
+    public Image statusUGT, statusTW;
     public TextMeshProUGUI disUGT, disIF, valIF,  valTW, val100_1000TW, valRB, angleRB;
     public TextMeshProUGUI disUGT_AL1102, valIF_AL1102, valTW_AL1102, valRB_AL1102, outO5C_AL2401, outKT_AL2401, outMotor, outRL, outOL, outGL;
     public TextMeshProUGUI SP1SSC1UGT, SP2SSC1UGT, SP1SSC2UGT, SP2SSC2UGT, SP1SSC1IF, SP2SSC1IF, SP1SSC2IF, SP2SSC2IF;
@@ -30,6 +31,23 @@ public class update_data_real_vali : MonoBehaviour
         outW0IF = (ushort)(global_variables.realW0IF & 3);
         valW0IF = (ushort)(global_variables.realW0IF >> 2);
         outW1TW = (ushort)(global_variables.realW1TW & 1);
+        if ((ushort)(global_variables.realW1UGT & 255) <= 3)
+        {
+            statusUGT.sprite = tickON;
+        } 
+        else
+        {
+            statusUGT.sprite = tickOFF;
+        }
+        if ((ushort)(global_variables.realW1TW & 255) <= 3)
+        {
+            statusTW.sprite = tickON;
+        }
+        else
+        {
+            statusTW.sprite = tickOFF;
+        }
+
         //UGT524
         if (outW1UGT == 0)
         {
@@ -111,7 +129,16 @@ public class update_data_real_vali : MonoBehaviour
         //RB3100
         valRB.text = global_variables.realW0RB.ToString();
         angleRB.text = global_variables.realAngleRB.ToString("0.##") +"°";
-        clockwiseRB.transform.localEulerAngles = new Vector3(0.0f, 0.0f, -global_variables.realAngleRB);
+        if (global_variables.realcDirRB3100 == 0)
+        {
+            clockwiseRB.transform.localEulerAngles = new Vector3(0.0f, 0.0f, -global_variables.realAngleRB);
+        }    
+        else
+        {
+            clockwiseRB.transform.localEulerAngles = new Vector3(0.0f, 0.0f, global_variables.realAngleRB);
+        }    
+        
+
         valRB_AL1102.text = global_variables.realW0RB.ToString();
 
         //O5C500
@@ -233,21 +260,21 @@ public class update_data_real_vali : MonoBehaviour
         if (global_variables.realSP2SSC2IF != 0) SP2SSC2IF.text = global_variables.realSP2SSC2IF.ToString();
         else SP2SSC2IF.text = "NaN";
 
-        if (global_variables.realSP1TW2000 != 0) SP1TW.text = global_variables.realSP1TW2000.ToString();
+        if (global_variables.realSP1TW2000 != 0) SP1TW.text = "SP1: "+ global_variables.realSP1TW2000.ToString();
         else SP1TW.text = "NaN";
-        if (global_variables.realrP1TW2000 != 0) rP1TW.text = global_variables.realrP1TW2000.ToString();
+        if (global_variables.realrP1TW2000 != 0) rP1TW.text = "rP1: "+global_variables.realrP1TW2000.ToString();
         else rP1TW.text = "NaN";
 
         if (global_variables.realrSLTRB3100 != 0) rSLTRB.text = global_variables.realrSLTRB3100.ToString();
         else rSLTRB.text = "NaN";
         
-        if (global_variables.cDirRB3100 == 0) cDirRB.text = "cw/ A trước B";
-        else if (global_variables.cDirRB3100 == 1) cDirRB.text = "ccw/ B trước A";
+        if (global_variables.realcDirRB3100 == 0) cDirRB.text = "cw/ A trước B";
+        else if (global_variables.realcDirRB3100 == 1) cDirRB.text = "ccw/ B trước A";
         else cDirRB.text = "NaN";
-        if (global_variables.OUTENCRB3100 == 0) OUT_ENCRB.text = "TTL";
-        else if (global_variables.cDirRB3100 == 1) cDirRB.text = "HTL";
+        if (global_variables.realOUTENCRB3100 == 0) OUT_ENCRB.text = "TTL";
+        else if (global_variables.realOUTENCRB3100 == 1) OUT_ENCRB.text = "HTL";
         else cDirRB.text = "NaN";
-
+        Debug.Log("ddddddddddddirec " + global_variables.realcDirRB3100.ToString());
         #endregion
     }
 }

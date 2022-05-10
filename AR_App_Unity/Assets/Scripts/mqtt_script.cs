@@ -17,7 +17,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     public TextMeshProUGUI notifyConnect, txtBtnConnect;
     public TMP_InputField inputFieldID;
     public TMP_InputField addressIF, portIF, usernameIF, passwordIF;
-
+    
 
 
     public DataDAToValiIFM DataDAToValiIFMObj = new DataDAToValiIFM();
@@ -25,6 +25,8 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     //
     public DataValiIFMToDA DataValiIFMToDAObj = new DataValiIFMToDA();
     public DataValiPLCToDA DataValiPLCToDAObj = new DataValiPLCToDA();
+    public DataSetSPValiPLCToDA DataSetSPValiPLCToDAObj = new DataSetSPValiPLCToDA();
+    public DataButtonReadConfigValiIFM DataButtonReadConfigValiIFMObj = new DataButtonReadConfigValiIFM();
 
     public DataValueDAToRValiIFM DataValueDAToRValiIFMObj = new DataValueDAToRValiIFM();
     public DataConfParaDAToRValiIFM DataConfParaDAToRValiIFMObj = new DataConfParaDAToRValiIFM();
@@ -33,10 +35,14 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     public DataRValiPLCToDA DataRValiPLCToDAObj = new DataRValiPLCToDA();
 
 
+    
+
+
     float startTime, t;
-    bool mqttConnected, flagConnect = true;
+    bool mqttConnected, flagConnect = true, pubSimulateSP, pubRealSP;
     string topicARAppToDA, topicDAtoARApp;
     string jsonDataReceive, jsonPublish;
+    int readConfig;
 
     //Class
     //----------------------------------------------------------------------
@@ -85,8 +91,16 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         public byte idV5;
         public byte DI;
         public ushort AI;
+        public bool LS1;
+        public bool LS2;
         //Stepper Motor
     }
+    public class DataSetSPValiPLCToDA
+    {
+        public byte idV6;
+        public float siPosSP, siVelSP;
+    }    
+    
     //
     //----------------------------------------------------------------------
     public class DataValueDAToRValiIFM  //RValiIFM: AR cho các các mã QR của ValiIFM thật 
@@ -131,11 +145,16 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         public bool LS1, LS2;
     }
     //
-    public class DataRValiPLCToDA
+    public class DataRValiPLCToDA   //QR AR App --> DA --> Real ValiPLC
     {
         public byte idR5;
-        //public float velSP = 0, vel = 0, posSP = 0, pos = 0;
+        public float velSP, posSP;
 
+    }
+    public class DataButtonReadConfigValiIFM
+    {
+        public byte idR6;
+        public bool readConfig;
     }
     //
 
@@ -199,9 +218,40 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
                 {
                     UpdateDataValiPLCToDA_MCBOff();
                     client.Publish(topicARAppToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                }
+                if ((readConfig == 1) || (readConfig == 2))
+                {
+                    
+                    if (readConfig == 1)
+                    {
+                        DataButtonReadConfigValiIFMObj.readConfig = true;
+                        jsonPublish = JsonUtility.ToJson(DataButtonReadConfigValiIFMObj, true);
+                        client.Publish(topicARAppToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+
+                    }
+                    else if (readConfig == 2)
+                    {
+                        DataButtonReadConfigValiIFMObj.readConfig = false;
+                        jsonPublish = JsonUtility.ToJson(DataButtonReadConfigValiIFMObj, true);
+                        client.Publish(topicARAppToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                    }
+                    readConfig = readConfig + 1;    
+                }
+                else readConfig = 0;
+
+
+                if (global_variables.onMCBPLC && pubSimulateSP == true)
+                {
+                    jsonPublish = JsonUtility.ToJson(DataSetSPValiPLCToDAObj, true);
+                    client.Publish(topicARAppToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                    pubSimulateSP = false;
                 }    
-                
-                
+                if (pubRealSP == true)
+                {
+                    jsonPublish = JsonUtility.ToJson(DataRValiPLCToDAObj, true);
+                    client.Publish(topicARAppToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                    pubRealSP = false;
+                }    
 
             }
             startTime = Time.time;
@@ -222,33 +272,36 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         {
             jsonDataReceive = System.Text.Encoding.UTF8.GetString(message);
         }    
-        
-        if (jsonDataReceive.Contains("idV1"))
+        if (global_variables.onMCBPLC)
         {
-            DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
-            UpdateDataDAtoValiIFMObj();
-        }  
-        else if (jsonDataReceive.Contains("idV2"))
-        {
-            DataDAToValiPLCObj = JsonUtility.FromJson<DataDAToValiPLC>(jsonDataReceive); 
-            UpdateDataDAtoValiPLCObj();
-        }    
-        //DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
+            if (jsonDataReceive.Contains("idV1"))
+            {
+                DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
+                UpdateDataDAtoValiIFMObj();
+            }
+            else if (jsonDataReceive.Contains("idV2"))
+            {
+                DataDAToValiPLCObj = JsonUtility.FromJson<DataDAToValiPLC>(jsonDataReceive);
+                UpdateDataDAtoValiPLCObj();
+            }
+            //DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
+        }
         if (jsonDataReceive.Contains("idR1"))
         {
             DataValueDAToRValiIFMObj = JsonUtility.FromJson<DataValueDAToRValiIFM>(jsonDataReceive);
             UpdateDataValueDAToRValiIFMObj();
-        }    
+        }
         else if (jsonDataReceive.Contains("idR2"))
         {
             DataConfParaDAToRValiIFMObj = JsonUtility.FromJson<DataConfParaDAToRValiIFM>(jsonDataReceive);
             UpdateDataConfParaDAToRValiIFMObj();
-        }   
+        }
         else if (jsonDataReceive.Contains("idR3"))
         {
             DataDAToRValiPLCObj = JsonUtility.FromJson<DataDAToRValiPLC>(jsonDataReceive);
             UpdateDataDAToRValiPLCObj();
-        }    
+        }
+
     }
 
 
@@ -276,7 +329,8 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     {
         DataValiPLCToDAObj.DI = global_variables.DI;
         DataValiPLCToDAObj.AI = global_variables.AI;
-
+        DataValiPLCToDAObj.LS1 = global_variables.LS1;
+        DataValiPLCToDAObj.LS2 = global_variables.LS2;
         jsonPublish = JsonUtility.ToJson(DataValiPLCToDAObj, true);
     }    
     public void UpdateDataValiPLCToDA_MCBOff()
@@ -319,6 +373,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         global_variables.DO = DataDAToValiPLCObj.DO;
         global_variables.AO = DataDAToValiPLCObj.AO;
         global_variables.velSP = DataDAToValiPLCObj.velSP;
+        global_variables.vel = DataDAToValiPLCObj.vel;
         //
         global_variables.posSP = DataDAToValiPLCObj.posSP;
         global_variables.pos = DataDAToValiPLCObj.pos;
@@ -380,6 +435,26 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         global_variables.realLS2 = DataDAToRValiPLCObj.LS2;
     }    
 
+    public void SetRealPosVelSP()
+    {
+        
+        DataRValiPLCToDAObj.posSP = global_variables.realSetPosSP;
+        DataRValiPLCToDAObj.velSP = global_variables.realSetVelSP;
+        pubRealSP = true;
+        
+    }
+
+    public void SetSimulatePosVelSP()
+    {
+        DataSetSPValiPLCToDAObj.siPosSP = global_variables.simulateSetPosSP;
+        DataSetSPValiPLCToDAObj.siVelSP = global_variables.simulateSetVelSP;
+        pubSimulateSP = true;
+    }    
+    public void ReadConfigIFM()
+    {
+        readConfig = 1;
+    }    
+
     public void SubmitID()
     {
         topicARAppToDA = "ARAppToDA: ID = " + inputFieldID.text;
@@ -406,10 +481,10 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
             this.mqttPassword = passwordIF.text;
             flagConnect = true;
             Connect();
-            Debug.Log("Address Broker: " + this.brokerAddress);
-            Debug.Log("Port: " + this.brokerPort);
-            Debug.Log("Username: " + this.mqttUserName);
-            Debug.Log("Password: " + this.mqttPassword);
+            //Debug.Log("Address Broker: " + this.brokerAddress);
+            //Debug.Log("Port: " + this.brokerPort);
+            //Debug.Log("Username: " + this.mqttUserName);
+            //Debug.Log("Password: " + this.mqttPassword);
         }    
     }    
 }

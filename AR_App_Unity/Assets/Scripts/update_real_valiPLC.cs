@@ -192,15 +192,15 @@ public class update_real_valiPLC : MonoBehaviour
         tempPos = 1.897f * global_variables.realPos - 90.8f;
         if (tempPos > -99.1f && tempPos < 107.9f)
         {
-            vitme.transform.localPosition = new Vector3(tempPos, 153.2f, 7.629395e-05f);
+            vitme.transform.localPosition = new Vector3(tempPos, 165.3f, 7.629395e-05f);
         }    
         else if (tempPos <= -99.1f)
         {
-            vitme.transform.localPosition = new Vector3(-99.1f, 153.2f, 7.629395e-05f);
+            vitme.transform.localPosition = new Vector3(-99.1f, 165.3f, 7.629395e-05f);
         }    
         else if (tempPos >= 107.9f)
         {
-            vitme.transform.localPosition = new Vector3(107.9f, 153.2f, 7.629395e-05f);
+            vitme.transform.localPosition = new Vector3(107.9f, 165.3f, 7.629395e-05f);
         }    
         if (global_variables.realLS1 == true)
         {

@@ -84,9 +84,14 @@ public class global_variables : MonoBehaviour
     public static float pos;
     public static float posHome;
     public static float posTotal;
+    public static bool LS1;
+    public static bool LS2;
 
-    //public static float tSecond;
-    //public static bool exeMoveAbs;
+    //AR App --> DA --> Real + Simulate Vali PLC
+    public static float realSetPosSP;
+    public static float realSetVelSP;
+    public static float simulateSetPosSP;
+    public static float simulateSetVelSP;
 
 
 
