@@ -6,25 +6,25 @@ using VRStandardAssets.Utils;
 
 public class interactive_sensor_vr : MonoBehaviour
 {
-    public VRInteractiveItem UGT524;
+    public VRInteractiveItem deviceObjCollier;
     //public VRInteractiveItem btn1UGT524;
     
     public Image dotPic1, backgroundPic1;
-    public GameObject panelUGT524;
-    bool showUGT524;
+    public GameObject panelObj;
+    bool showPanel;
     private void Awake()
     {
         //m_NormalMaterial = m_Renderer.material;
-        panelUGT524.gameObject.SetActive(true);
+        //panelUGT524.gameObject.SetActive(false);
     }
 
 
     private void OnEnable()
     {
         Debug.Log("Enable");
-        UGT524.OnOver += HandleOver;
-        UGT524.OnOut += HandleOut;
-        UGT524.OnClick += HandleClick;
+        deviceObjCollier.OnOver += HandleOver;
+        deviceObjCollier.OnOut += HandleOut;
+        deviceObjCollier.OnClick += HandleClick;
 
         //btn1UGT524.OnOver += HandleOver;
         //btn1UGT524.OnOut += HandleOut;
@@ -34,9 +34,9 @@ public class interactive_sensor_vr : MonoBehaviour
     private void OnDisable()
     {
         Debug.Log("Disable");
-        UGT524.OnOver -= HandleOver;
-        UGT524.OnOut -= HandleOut;
-        UGT524.OnClick -= HandleClick;
+        deviceObjCollier.OnOver -= HandleOver;
+        deviceObjCollier.OnOut -= HandleOut;
+        deviceObjCollier.OnClick -= HandleClick;
 
         //btn1UGT524.OnOver -= HandleOver;
         //btn1UGT524.OnOut -= HandleOut;
@@ -69,15 +69,15 @@ public class interactive_sensor_vr : MonoBehaviour
     {
         //m_Renderer.material = m_ClickedMaterial;
         Debug.Log("Show click state");
-        if (showUGT524 == false)
+        if (showPanel == false)
         {
-            panelUGT524.gameObject.SetActive(true);
-            showUGT524 = true;
+            panelObj.gameObject.SetActive(true);
+            showPanel = true;
         }    
         else
         {
-            panelUGT524.gameObject.SetActive(false);
-            showUGT524 = false;
+            panelObj.gameObject.SetActive(false);
+            showPanel = false;
         }    
         
     }

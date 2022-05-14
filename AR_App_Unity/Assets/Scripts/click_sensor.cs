@@ -15,6 +15,7 @@ public class click_sensor : MonoBehaviour
     bool startTimerKT5112, startTimerCB, startTimerToggleSwitch;
     float timerKT5112CV, timerCBCV, timerToggleSwitchCV, timerClickKT5112;
     int countClickKT5112, countClickCB, countClickToggleSwitch;
+    bool tempModeVR;
 
     Vector3 vector3Position1O5C500 = new Vector3(-21.3f, 2.7f, 2.6f);
     Vector3 vector3Position2O5C500 = new Vector3(-21.6f, 3.3f, 7.44f);
@@ -220,9 +221,12 @@ public class click_sensor : MonoBehaviour
                 ShowPanel(ref showRelay, gameObjectRelay);
             }
         }
+
+        
     }
     private void ShowPanel(ref bool showPanel, GameObject gameObjectPanel)
     {
+
         if (showPanel == false)
         {
             gameObjectPanel.gameObject.SetActive(true);

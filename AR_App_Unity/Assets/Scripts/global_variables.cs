@@ -6,6 +6,7 @@ using System;
 
 public class global_variables : MonoBehaviour
 {
+    public static bool modeVR;
     public static bool clickGameObjectO5C500;
     public static bool clickDataO5C500;
 

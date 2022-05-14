@@ -50,6 +50,33 @@ TagManager:
   - PLC_Slave
   - Switch_MCB_PLC
   - Switch_MCB_IFM
+  - VPanelUGT
+  - VPanelIF
+  - VPanelRB
+  - VPanelTW
+  - VPanelO5C
+  - VPanelKT
+  - VPanelAL1102
+  - VPanelAL2330
+  - VPanelDN4012
+  - VPanelAL2401
+  - VPanelDN
+  - VPanelSwitch
+  - VPanelEncoder
+  - VPanelStepper
+  - VPanelScalance
+  - VPanelHMI
+  - VPanelSlave
+  - VPanelMaster
+  - VPanelDriver
+  - RPanelScalance
+  - RPanelSlave
+  - RPanelMaster
+  - RPanelSwitch
+  - RPanelHMI
+  - RPanelStepper
+  - RPanelDriver
+  - RPanelEncoder
   layers:
   - Default
   - TransparentFX
