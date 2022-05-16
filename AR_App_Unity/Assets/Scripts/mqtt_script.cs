@@ -27,11 +27,13 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     public DataValiPLCToDA DataValiPLCToDAObj = new DataValiPLCToDA();
     public DataSetSPValiPLCToDA DataSetSPValiPLCToDAObj = new DataSetSPValiPLCToDA();
     public DataButtonReadConfigValiIFM DataButtonReadConfigValiIFMObj = new DataButtonReadConfigValiIFM();
+    public DataSetSPRInverter DataSetSPRInverterObj = new DataSetSPRInverter();
+    public DataSetOnOffRInverter DataSetOnOffRInverterObj = new DataSetOnOffRInverter();
 
     public DataValueDAToRValiIFM DataValueDAToRValiIFMObj = new DataValueDAToRValiIFM();
     public DataConfParaDAToRValiIFM DataConfParaDAToRValiIFMObj = new DataConfParaDAToRValiIFM();
-    //
     public DataDAToRValiPLC DataDAToRValiPLCObj = new DataDAToRValiPLC();
+    public DataDAToRInverter DataDAToRInverterObj = new DataDAToRInverter();
     public DataRValiPLCToDA DataRValiPLCToDAObj = new DataRValiPLCToDA();
 
 
@@ -39,7 +41,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
 
 
     float startTime, t;
-    bool mqttConnected, flagConnect = true, pubSimulateSP, pubRealSP;
+    bool mqttConnected, flagConnect = true, pubSimulateSP, pubRealSP, pubRealSPG120, pubRealOnOffG120;
     string topicARAppToDA, topicDAtoARApp;
     string jsonDataReceive, jsonPublish;
     int readConfig;
@@ -99,8 +101,8 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
     {
         public byte idV6;
         public float siPosSP, siVelSP;
-    }    
-    
+    }
+      
     //
     //----------------------------------------------------------------------
     public class DataValueDAToRValiIFM  //RValiIFM: AR cho các các mã QR của ValiIFM thật 
@@ -144,7 +146,12 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         public float velSP, vel, posSP, pos, velEnc, posEnc;
         public bool LS1, LS2;
     }
-    //
+    public class DataDAToRInverter          
+    {
+        public byte idR4;
+        public ushort onOffG120;
+        public ushort velSPG120, velG120;
+    }
     public class DataRValiPLCToDA   //QR AR App --> DA --> Real ValiPLC
     {
         public byte idR5;
@@ -156,6 +163,17 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         public byte idR6;
         public bool readConfig;
     }
+    public class DataSetSPRInverter
+    {
+        public byte idR7;
+        public ushort velSetSPG120;
+        
+    }
+    public class DataSetOnOffRInverter
+    {
+        public byte idR8;
+        public ushort onOffSetG120;
+    }    
     //
 
 
@@ -252,6 +270,18 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
                     client.Publish(topicARAppToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
                     pubRealSP = false;
                 }    
+                if (pubRealSPG120 == true)
+                {
+                    jsonPublish = JsonUtility.ToJson(DataSetSPRInverterObj, true);
+                    client.Publish(topicARAppToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                    pubRealSPG120 = false;
+                }    
+                if (pubRealOnOffG120 == true)
+                {
+                    jsonPublish = JsonUtility.ToJson(DataSetOnOffRInverterObj, true);
+                    client.Publish(topicARAppToDA, System.Text.Encoding.UTF8.GetBytes(jsonPublish), MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE, false);
+                    pubRealOnOffG120 = false;
+                }    
 
             }
             startTime = Time.time;
@@ -284,7 +314,6 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
                 DataDAToValiPLCObj = JsonUtility.FromJson<DataDAToValiPLC>(jsonDataReceive);
                 UpdateDataDAtoValiPLCObj();
             }
-            //DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
         }
         if (jsonDataReceive.Contains("idR1"))
         {
@@ -301,6 +330,11 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
             DataDAToRValiPLCObj = JsonUtility.FromJson<DataDAToRValiPLC>(jsonDataReceive);
             UpdateDataDAToRValiPLCObj();
         }
+        else if (jsonDataReceive.Contains("idR4"))
+        {
+            DataDAToRInverterObj = JsonUtility.FromJson<DataDAToRInverter>(jsonDataReceive);
+            UpdateDataDAToRInverter();
+        }    
 
     }
 
@@ -333,6 +367,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         DataValiPLCToDAObj.LS2 = global_variables.LS2;
         jsonPublish = JsonUtility.ToJson(DataValiPLCToDAObj, true);
     }    
+
     public void UpdateDataValiPLCToDA_MCBOff()
     {
         DataValiPLCToDAObj.DI = 0;
@@ -435,6 +470,14 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         global_variables.realLS2 = DataDAToRValiPLCObj.LS2;
     }    
 
+    public void UpdateDataDAToRInverter()
+    {
+        global_variables.realOnOffG120 = DataDAToRInverterObj.onOffG120;
+        global_variables.realVelSPG120 = DataDAToRInverterObj.velSPG120;
+        global_variables.realVelG120 = DataDAToRInverterObj.velG120;
+
+    }    
+
     public void SetRealPosVelSP()
     {
         
@@ -450,6 +493,28 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         DataSetSPValiPLCToDAObj.siVelSP = global_variables.simulateSetVelSP;
         pubSimulateSP = true;
     }    
+
+    public void SetRealVelSPG120()
+    {
+        DataSetSPRInverterObj.velSetSPG120 = global_variables.realSetVelSPG120;
+        pubRealSPG120 = true;
+    }    
+
+
+    public void SetRealOnG120()
+    {
+        global_variables.realSetOnOffG120 = 1151;
+        DataSetOnOffRInverterObj.onOffSetG120 = global_variables.realSetOnOffG120;
+        pubRealOnOffG120 = true;
+    }
+    public void SetRealOffG120()
+    {
+        global_variables.realSetOnOffG120 = 1150;
+        DataSetOnOffRInverterObj.onOffSetG120 = global_variables.realSetOnOffG120;
+        pubRealOnOffG120 = true;
+    }
+
+
     public void ReadConfigIFM()
     {
         readConfig = 1;

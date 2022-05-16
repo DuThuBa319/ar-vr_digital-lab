@@ -88,12 +88,17 @@ public class global_variables : MonoBehaviour
     public static bool LS1;
     public static bool LS2;
 
+    public static ushort realOnOffG120;
+    public static ushort realVelSPG120;
+    public static ushort realVelG120;
+
     //AR App --> DA --> Real + Simulate Vali PLC
     public static float realSetPosSP;
     public static float realSetVelSP;
     public static float simulateSetPosSP;
     public static float simulateSetVelSP;
-
+    public static ushort realSetVelSPG120;
+    public static ushort realSetOnOffG120;
 
 
     public static byte realDI;

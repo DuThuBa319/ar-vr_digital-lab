@@ -77,6 +77,16 @@ TagManager:
   - RPanelStepper
   - RPanelDriver
   - RPanelEncoder
+  - G120
+  - ControlBox
+  - MotorG120
+  - MCBG120
+  - VPanelG120
+  - VPanelControlBox
+  - VPanelMotorG120
+  - RPanelG120
+  - RPanelControlBox
+  - RPanelMotorG120
   layers:
   - Default
   - TransparentFX
