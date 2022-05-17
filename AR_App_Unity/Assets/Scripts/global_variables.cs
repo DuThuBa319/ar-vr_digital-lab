@@ -92,6 +92,13 @@ public class global_variables : MonoBehaviour
     public static ushort realVelSPG120;
     public static ushort realVelG120;
 
+    public static ushort onOffG120;
+    public static ushort velSPG120;
+    public static ushort velG120;
+    public static ushort velWriteG120;
+    public static ushort setVelSPG120;
+    public static ushort setOnOffG120;
+
     //AR App --> DA --> Real + Simulate Vali PLC
     public static float realSetPosSP;
     public static float realSetVelSP;
