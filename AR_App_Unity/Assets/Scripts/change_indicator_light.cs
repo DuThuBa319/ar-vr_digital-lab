@@ -38,6 +38,7 @@ public class change_indicator_light : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + global_variables.byte67);
         if (global_variables.onMCB)
         {
             if (global_variables.byte65 == 0)

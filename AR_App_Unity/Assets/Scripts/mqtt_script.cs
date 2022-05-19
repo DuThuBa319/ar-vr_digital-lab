@@ -208,7 +208,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         topicARAppToDA = "ARAppToDA: ID = 0";
         topicDAtoARApp = "DAToARApp: ID = 0";
 
-        addressIF.text = "40.76.54.39";
+        addressIF.text = "192.168.1.6";
         portIF.text = "1883";
         usernameIF.text = "mqtt2";
         passwordIF.text = "passwordmqtt2";
@@ -347,23 +347,35 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
             jsonDataReceive = System.Text.Encoding.UTF8.GetString(message);
         }    
         if (global_variables.onMCBPLC)
-        {
+        {/*
             if (jsonDataReceive.Contains("idV1"))
             {
                 DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
                 UpdateDataDAtoValiIFMObj();
-            }
-            else if (jsonDataReceive.Contains("idV2"))
+            }*/
+            if (jsonDataReceive.Contains("idV2"))
             {
                 DataDAToValiPLCObj = JsonUtility.FromJson<DataDAToValiPLC>(jsonDataReceive);
                 UpdateDataDAtoValiPLCObj();
             }
         }
+        if (global_variables.onMCB)
+        {
+            if (jsonDataReceive.Contains("idV1"))
+            {
+                DataDAToValiIFMObj = JsonUtility.FromJson<DataDAToValiIFM>(jsonDataReceive);
+                UpdateDataDAtoValiIFMObj();
+                //Debug.Log("ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt");
+            }
+        }    
+            
+           
         //INVERTER PLCSIM
         if (jsonDataReceive.Contains("idV3"))
         {
             DataDAToInverterObj = JsonUtility.FromJson<DataDAToInverter>(jsonDataReceive);
             UpdateDataDAToInverterObj();
+            //Debug.Log("ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc");
         }    
 
         if (jsonDataReceive.Contains("idR1"))
@@ -452,6 +464,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         global_variables.angleRB = DataDAToValiIFMObj.angleRB;
         global_variables.byte65 = DataDAToValiIFMObj.byte65;
         global_variables.byte67 = DataDAToValiIFMObj.byte67;
+
     }
                 
     void UpdateDataDAtoValiPLCObj()
