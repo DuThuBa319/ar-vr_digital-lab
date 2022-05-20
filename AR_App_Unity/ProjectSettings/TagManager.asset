@@ -87,6 +87,18 @@ TagManager:
   - RPanelG120
   - RPanelControlBox
   - RPanelMotorG120
+  - RPanelUGT
+  - RPanelRB
+  - RPanelTW
+  - RPanelO5C
+  - RPanelKT
+  - RPanelAL1102
+  - RPanelAL2401
+  - RPanelAL2330
+  - RPanelDN
+  - RPanelIF
+  - RPanelRS775
+  - MCBG120_Switch
   layers:
   - Default
   - TransparentFX

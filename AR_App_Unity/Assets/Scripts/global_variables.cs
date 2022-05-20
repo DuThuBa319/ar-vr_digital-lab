@@ -128,6 +128,7 @@ public class global_variables : MonoBehaviour
 
     //MCB
     public static bool onMCB;
+    public static bool onMCBG120;
     public static bool onMCBPLC;
 
     //Simulate
