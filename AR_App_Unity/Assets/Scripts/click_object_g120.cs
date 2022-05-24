@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class click_object_g120 : MonoBehaviour
 {
-    public GameObject gameObjectG120, gameObjectControlBox, gameObjectMotor;
+    public GameObject gameObjectG120, gameObjectControlBox, gameObjectMotor, gameObjectMCB;
     
-    bool showG120, showControlBox, showMotor;
+    bool showG120, showControlBox, showMotor, showMCB;
     // Start is called before the first frame update
     void Start()
     {
         gameObjectG120.gameObject.SetActive(false);
         gameObjectControlBox.gameObject.SetActive(false);
         gameObjectMotor.gameObject.SetActive(false);
+        gameObjectMCB.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -35,8 +36,13 @@ public class click_object_g120 : MonoBehaviour
             {
                 ShowPanel(ref showMotor, gameObjectMotor);
             }
+            if (Physics.Raycast(ray, out hit) && hit.collider.CompareTag("MCBG120"))
+            {
+                ShowPanel(ref showMotor, gameObjectMCB);
+            }
 
-            
+
+
         }
     }
 

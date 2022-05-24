@@ -14,6 +14,8 @@ public class effect_mcb_plc_on_off : MonoBehaviour
     public Sprite tickOn, tickOff;
     public Image statusMCBPLC, statusScalance, statusPLCMaster, statusPLCSlave, statusHMI;
     public Image statusDrive, statusEncoder, statusMotor, statusPanelSwitch;
+    public TextMeshProUGUI txtStatusMCB;
+    public Image imgStatusMCB;
 
     //public Renderer cubeI0_0, cubeI0_1, cubeI0_2, cubeI0_3, cubeI0_4, cubeI0_5, cubeI0_6, cubeI0_7;
     //public Renderer cubeQ0_0, cubeQ0_1, cubeQ0_2, cubeQ0_3, cubeQ0_4, cubeQ0_5, cubeQ0_6, cubeQ0_7;
@@ -69,7 +71,10 @@ public class effect_mcb_plc_on_off : MonoBehaviour
                     ledRunSlave.material = glowGreen;
                     ledScalance.material = glowGreen;
 
-                   
+                    txtStatusMCB.text = "ON";
+                    imgStatusMCB.sprite = tickOn;
+
+
                 }
                 else if (global_variables.onMCBPLC == true)
                 {
@@ -90,6 +95,9 @@ public class effect_mcb_plc_on_off : MonoBehaviour
                     ledRunMaster.material = blackGreen;
                     ledRunSlave.material = blackGreen;
                     ledScalance.material = blackGreen;
+
+                    txtStatusMCB.text = "OFF";
+                    imgStatusMCB.sprite = tickOff;
                 }
             }
         }

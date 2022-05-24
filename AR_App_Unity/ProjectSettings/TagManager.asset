@@ -99,6 +99,18 @@ TagManager:
   - RPanelIF
   - RPanelRS775
   - MCBG120_Switch
+  - VPanelMCBG120
+  - RPanelMCBG120
+  - VPanelMCB1P
+  - RPanelMCB1P
+  - VPanelMCBPLC
+  - RPanelMCBPLC
+  - VPanelRS775
+  - VPanelRelay
+  - VPanelToggleSwitch
+  - RPanelRelay
+  - VPanelLight
+  - RPanelLight
   layers:
   - Default
   - TransparentFX

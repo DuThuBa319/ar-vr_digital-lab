@@ -133,4 +133,6 @@ public class global_variables : MonoBehaviour
 
     //Simulate
     public static bool simulateTW;
+    public static bool clickToggleSwitch;
+
 }

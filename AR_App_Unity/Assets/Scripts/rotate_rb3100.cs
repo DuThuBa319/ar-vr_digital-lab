@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -43,7 +43,7 @@ public class rotate_rb3100: MonoBehaviour
 
         global_variables.pulseRB3100 = (Int16)(localAngleRB3100 * rawResolution / 360);
         pulseTMProRB3100.text = global_variables.pulseRB3100.ToString();
-        angleTMProRB3100.text = localAngleRB3100.ToString("0.##") + "�";
+        angleTMProRB3100.text = "Vị trí: " + localAngleRB3100.ToString("0.##") + "°";
     }
 
     private void OnMouseDrag()

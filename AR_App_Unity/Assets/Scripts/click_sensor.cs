@@ -7,6 +7,7 @@ public class click_sensor : MonoBehaviour
     public GameObject gameObjectUGT524, gameObjectIF6123, gameObjectRB3100, gameObjectTW2000, gameObjectO5C500, gameObjectKT5112;
     public GameObject gameObjectAL1102, gameObjectAL2401, gameObjectAL2330, gameObjectDN4012;
     public GameObject gameObjectRS775, gameObjectLight, gameObjectCB, gameObjectRelay, gameObjectToggleSwitch;
+    public GameObject toggleSwitch1, toggleSwitch2;
 
     bool showUGT524, showIF6123, showRB3100, showTW2000, showO5C500, showKT5112;
     bool showAL1102, showAL2401, showAL2330, showDN4012;
@@ -16,6 +17,8 @@ public class click_sensor : MonoBehaviour
     float timerKT5112CV, timerCBCV, timerToggleSwitchCV, timerClickKT5112;
     int countClickKT5112, countClickCB, countClickToggleSwitch;
     bool tempModeVR;
+
+    
 
     Vector3 vector3Position1O5C500 = new Vector3(-21.3f, 2.7f, 2.6f);
     Vector3 vector3Position2O5C500 = new Vector3(-21.6f, 3.3f, 7.44f);
@@ -115,6 +118,17 @@ public class click_sensor : MonoBehaviour
             if (countClickToggleSwitch == 1)
             {
                 //Press ToggleSwitch
+                global_variables.clickToggleSwitch = !global_variables.clickToggleSwitch;
+                if (global_variables.clickToggleSwitch == true)
+                {
+                    toggleSwitch1.gameObject.SetActive(true);
+                    toggleSwitch2.gameObject.SetActive(false);
+                }    
+                else
+                {
+                    toggleSwitch1.gameObject.SetActive(false);
+                    toggleSwitch2.gameObject.SetActive(true);
+                }    
             }
             else if (countClickToggleSwitch >= 2)
             {

@@ -12,7 +12,8 @@ public class update_iolink_data : MonoBehaviour
     public TextMeshProUGUI doMotor, doRedLight, doGreenLight, doOrangeLight;
     public TextMeshProUGUI statusRL, statusGL, statusOL;
     public Sprite redLight, greenLight, orangeLight, grayLight, tickON, tickOFF;
-    public Image picRedLight, picGreenLight, picOrangeLight, statusMotor;
+    public Image picRedLight, picGreenLight, picOrangeLight, statusMotor, statusRelay;
+    public TextMeshProUGUI txtStatusMotor, txtStatusRelay;
     // Start is called before the first frame update
     void Start()
     {
@@ -86,6 +87,9 @@ public class update_iolink_data : MonoBehaviour
             doMotor.text = "0";
             doOrangeLight.text = "0";
             statusMotor.sprite = tickOFF;
+            statusRelay.sprite = tickOFF;
+            txtStatusMotor.text = "OFF";
+            txtStatusRelay.text = "OFF";
             picOrangeLight.sprite = grayLight;
             statusOL.text = "OFF";
         }
@@ -94,6 +98,9 @@ public class update_iolink_data : MonoBehaviour
             doMotor.text = "1";
             doOrangeLight.text = "0";
             statusMotor.sprite = tickON;
+            statusRelay.sprite = tickON;
+            txtStatusMotor.text = "ON";
+            txtStatusRelay.text = "ON";
             picOrangeLight.sprite = grayLight;
             statusOL.text = "OFF";
         }
@@ -102,6 +109,9 @@ public class update_iolink_data : MonoBehaviour
             doMotor.text = "0";
             doOrangeLight.text = "1";
             statusMotor.sprite = tickOFF;
+            statusRelay.sprite = tickOFF;
+            txtStatusMotor.text = "OFF";
+            txtStatusRelay.text = "OFF";
             picOrangeLight.sprite = orangeLight;
             statusOL.text = "ON";
         }
@@ -110,6 +120,9 @@ public class update_iolink_data : MonoBehaviour
             doMotor.text = "1";
             doOrangeLight.text = "1";
             statusMotor.sprite = tickON;
+            statusRelay.sprite = tickON;
+            txtStatusMotor.text = "ON";
+            txtStatusRelay.text = "ON";
             picOrangeLight.sprite = orangeLight;
             statusOL.text = "ON";
         }

@@ -9,7 +9,8 @@ public class update_data_real_vali : MonoBehaviour
 {
     public Image out1UGT, out2UGT, out1IF, out2IF, outTW, outO5C, outOnKT, outOffKT;
     public Sprite tickON, tickOFF, blueO5C, grayO5C, redLight, greenLight, orangeLight, grayLight;
-    public Image prgBarUGT, prgBarIF, circleBarTW, clockwiseRB, picRedLight, picGreenLight, picOrangeLight, statusMotor;
+    public Image prgBarUGT, prgBarIF, circleBarTW, clockwiseRB, picRedLight, picGreenLight, picOrangeLight, statusMotor, statusRelay;
+    public TextMeshProUGUI txtStatusMotor, txtStatusRelay;
     public Image statusUGT, statusTW;
     public TextMeshProUGUI disUGT, disIF, valIF,  valTW, val100_1000TW, valRB, angleRB;
     public TextMeshProUGUI disUGT_AL1102, valIF_AL1102, valTW_AL1102, valRB_AL1102, outO5C_AL2401, outKT_AL2401, outMotor, outRL, outOL, outGL;
@@ -128,7 +129,7 @@ public class update_data_real_vali : MonoBehaviour
 
         //RB3100
         valRB.text = global_variables.realW0RB.ToString();
-        angleRB.text = global_variables.realAngleRB.ToString("0.##") +"°";
+        angleRB.text = "Vị trí: " + global_variables.realAngleRB.ToString("0.##") +"°";
         if (global_variables.realcDirRB3100 == 0)
         {
             clockwiseRB.transform.localEulerAngles = new Vector3(0.0f, 0.0f, -global_variables.realAngleRB);
@@ -210,6 +211,9 @@ public class update_data_real_vali : MonoBehaviour
             outMotor.text = "0";
             outOL.text = "0";
             statusMotor.sprite = tickOFF;
+            statusRelay.sprite = tickOFF;
+            txtStatusMotor.text = "OFF";
+            txtStatusRelay.text = "OFF";
             picOrangeLight.sprite = grayLight;
             statusOL.text = "OFF";
         }
@@ -218,6 +222,9 @@ public class update_data_real_vali : MonoBehaviour
             outMotor.text = "1";
             outOL.text = "0";
             statusMotor.sprite = tickON;
+            statusRelay.sprite = tickON;
+            txtStatusMotor.text = "ON";
+            txtStatusRelay.text = "ON";
             picOrangeLight.sprite = grayLight;
             statusOL.text = "OFF";
 
@@ -227,6 +234,9 @@ public class update_data_real_vali : MonoBehaviour
             outMotor.text = "0";
             outOL.text = "1";
             statusMotor.sprite = tickOFF;
+            statusRelay.sprite = tickOFF;
+            txtStatusMotor.text = "OFF";
+            txtStatusRelay.text = "OFF";
             picOrangeLight.sprite = orangeLight;
             statusOL.text = "ON";
         }
@@ -235,6 +245,9 @@ public class update_data_real_vali : MonoBehaviour
             outMotor.text = "1";
             outOL.text = "1";
             statusMotor.sprite = tickON;
+            statusRelay.sprite = tickON;
+            txtStatusMotor.text = "ON";
+            txtStatusRelay.text = "ON";
             picOrangeLight.sprite = orangeLight;
             statusOL.text = "ON";
         }

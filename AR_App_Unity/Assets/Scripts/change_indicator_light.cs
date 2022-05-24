@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
 
 public class change_indicator_light : MonoBehaviour
 {
@@ -16,7 +19,10 @@ public class change_indicator_light : MonoBehaviour
     [SerializeField] private Renderer orangeLightIN1, orangeLightIN2, orangeLightOut;
 
     public GameObject diskMotor;
-    public float rotSpeechDiskMotor;   //5000
+    public float rotSpeechDiskMotor = 1000;   //5000
+
+    public TMP_InputField inputSpeed;
+    float timerUp = 0f, timerDown = 5f;
 
     int flag = 0;
     // Start is called before the first frame update
@@ -36,7 +42,7 @@ public class change_indicator_light : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         //Debug.Log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + global_variables.byte67);
         if (global_variables.onMCB)
@@ -94,7 +100,16 @@ public class change_indicator_light : MonoBehaviour
                 orangeLightIN2.material = orangeLightOff;
                 orangeLightOut.material = blackPng;
 
-                diskMotor.transform.Rotate(0f, 1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
+                //diskMotor.transform.Rotate(0f, 1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
+                
+                if (global_variables.clickToggleSwitch == false) //Dao chieu quay motor bang toggle switch
+                {
+                    diskMotor.transform.Rotate(0f, 1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
+                }
+                else
+                {
+                    diskMotor.transform.Rotate(0f, -1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
+                }
             }
             else if (global_variables.byte67 == 2)
             {
@@ -107,12 +122,68 @@ public class change_indicator_light : MonoBehaviour
                 orangeLightIN1.material = orangeLightGlow;
                 orangeLightIN2.material = orangeLightGlow;
                 orangeLightOut.material = orangeLightOn;
-
-                diskMotor.transform.Rotate(0f, 1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
+                //diskMotor.transform.Rotate(0f, 1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
+                
+                if (global_variables.clickToggleSwitch == false) //Dao chieu quay motor bang toggle switch
+                {
+                    diskMotor.transform.Rotate(0f, 1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
+                }    
+                else
+                {
+                    diskMotor.transform.Rotate(0f, -1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
+                }    
+                
             }
+            //
+            /*
+            if (global_variables.clickToggleSwitch == false) //Dao chieu quay motor bang toggle switch
+            {
+                if (rotSpeechDiskMotor < 3000)
+                {
+                    
+                    if (timerUp <= 5)
+                    {
+                        timerUp += Time.deltaTime;
+                        rotSpeechDiskMotor = 3000f * timerUp / 5f;
+                    }    
+                        
+                    //else timerUp = 0;
+                    
+                }
+                else if (rotSpeechDiskMotor >= 3000)
+                {
+                    rotSpeechDiskMotor = 3000;
+                    timerUp = 0;
+                }    
+                diskMotor.transform.Rotate(0f, 1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
+
+            }
+            else
+            {
+                if (rotSpeechDiskMotor > 0)
+                {
+
+                    if (timerDown >= 0)
+                    {
+                        timerDown -= Time.deltaTime;
+                        rotSpeechDiskMotor = 3000f * timerDown / 5f;
+                    }
+
+                    //else timerUp = 0;
+
+                }
+                else if (rotSpeechDiskMotor <= 0)
+                {
+                    rotSpeechDiskMotor = 0;
+                    timerDown = 5;
+                }
+                diskMotor.transform.Rotate(0f, 1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
+                //diskMotor.transform.Rotate(0f, -1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
+            }
+            */
         }    
         
-        
+
 
     }
     public void GlowLight()
@@ -154,4 +225,8 @@ public class change_indicator_light : MonoBehaviour
             flag = 0;
         }
     }
+    public void ChangeSpeed()
+    {
+        rotSpeechDiskMotor = float.Parse(inputSpeed.text);
+    }    
 }

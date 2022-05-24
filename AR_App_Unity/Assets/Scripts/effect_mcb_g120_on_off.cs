@@ -9,6 +9,11 @@ public class effect_mcb_g120_on_off : MonoBehaviour
 {
     public GameObject objOnMCB, objOffMCB;
     public GameObject led7Seg1, led7Seg2;
+    public TextMeshProUGUI txtStatusMCB;
+    public Sprite tickOn, tickOff;
+    public Image imgStatusMCB;
+    public Material lightG120Off, lightG120On, black, blue;
+    public Renderer light1G120, light4G120, screenG120;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,6 +39,11 @@ public class effect_mcb_g120_on_off : MonoBehaviour
                     //textButtonOnOffMCB.text = "OFF MCB";
                     //statusOnOffMCB.sprite = spriteOnMCB;
                     global_variables.onMCBG120 = true;
+                    txtStatusMCB.text = "ON";
+                    imgStatusMCB.sprite = tickOn;
+                    light1G120.material = lightG120On;
+                    light4G120.material = lightG120On;
+                    screenG120.material = blue;
 
                 }
                 else if (global_variables.onMCBG120 == true)
@@ -45,6 +55,11 @@ public class effect_mcb_g120_on_off : MonoBehaviour
                     //textButtonOnOffMCB.text = "ON MCB";
                     //statusOnOffMCB.sprite = spriteOffMCB;
                     global_variables.onMCBG120 = false;
+                    txtStatusMCB.text = "OFF";
+                    imgStatusMCB.sprite = tickOff;
+                    light1G120.material = lightG120Off;
+                    light4G120.material = lightG120Off;
+                    screenG120.material = black;
 
                 }
             }

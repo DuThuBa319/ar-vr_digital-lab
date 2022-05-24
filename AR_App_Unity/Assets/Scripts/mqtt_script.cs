@@ -44,7 +44,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
 
 
     float startTime, t;
-    bool mqttConnected, flagConnect = true, pubSimulateSP, pubRealSP, pubRealSPG120, pubRealOnOffG120, pubSPG120, pubOnOffG120;
+    bool mqttConnected, flagConnect = false, pubSimulateSP, pubRealSP, pubRealSPG120, pubRealOnOffG120, pubSPG120, pubOnOffG120;
     string topicARAppToDA, topicDAtoARApp;
     string jsonDataReceive, jsonPublish;
     int readConfig;
@@ -208,7 +208,7 @@ public class mqtt_script : M2MqttUnity.M2MqttUnityClient
         topicARAppToDA = "ARAppToDA: ID = 0";
         topicDAtoARApp = "DAToARApp: ID = 0";
 
-        addressIF.text = "192.168.1.6";
+        addressIF.text = "192.168.1.10";
         portIF.text = "1883";
         usernameIF.text = "mqtt2";
         passwordIF.text = "passwordmqtt2";

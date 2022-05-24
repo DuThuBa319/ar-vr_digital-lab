@@ -9,7 +9,7 @@ public class effect_mcb_on_off : MonoBehaviour
     public GameObject objOnMCB, objOffMCB;
     public TextMeshProUGUI textButtonOnOffMCB;
     public Image statusOnOffMCB;
-    public Sprite spriteOnMCB, spriteOffMCB;
+    //public Sprite spriteOnMCB, spriteOffMCB;
 
     public GameObject cubeUGT524, cubeIF6123;
 
@@ -24,6 +24,9 @@ public class effect_mcb_on_off : MonoBehaviour
 
     public Sprite tickOn, tickOff;
     public Image tickDN4012, tickAL2401, tickO5C, tickKT, tickTW, tickAL1102, tickRB, tickUGT, tickIF, tickAL2330; // - Motor, Light, Switch, Relay
+
+    public TextMeshProUGUI txtStatusMCB;
+    public Image imgStatusMCB;
 
     // Start is called before the first frame update
     void Start()
@@ -49,13 +52,16 @@ public class effect_mcb_on_off : MonoBehaviour
                     objOnMCB.gameObject.SetActive(true);
                     objOffMCB.gameObject.SetActive(false);
                     textButtonOnOffMCB.text = "OFF MCB";
-                    statusOnOffMCB.sprite = spriteOnMCB;
+                    //statusOnOffMCB.sprite = spriteOnMCB;
 
                     cubeUGT524.gameObject.SetActive(true);
                     cubeIF6123.gameObject.SetActive(true);
                     global_variables.simulateTW = true;
 
                     global_variables.onMCB = true;
+
+                    txtStatusMCB.text = "ON";
+                    imgStatusMCB.sprite = tickOn;
 
                     EffectLightOn();
                 }
@@ -64,12 +70,15 @@ public class effect_mcb_on_off : MonoBehaviour
                     objOnMCB.gameObject.SetActive(false);
                     objOffMCB.gameObject.SetActive(true);
                     textButtonOnOffMCB.text = "ON MCB";
-                    statusOnOffMCB.sprite = spriteOffMCB;
+                    //statusOnOffMCB.sprite = spriteOffMCB;
                     global_variables.onMCB = false;
 
                     cubeUGT524.gameObject.SetActive(false);
                     cubeIF6123.gameObject.SetActive(false);
                     global_variables.simulateTW = false;
+
+                    txtStatusMCB.text = "OFF";
+                    imgStatusMCB.sprite = tickOff;
 
                     EffectLightOff();
                 }

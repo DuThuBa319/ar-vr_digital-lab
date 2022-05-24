@@ -11,6 +11,10 @@ public class update_data_inverter : MonoBehaviour
     public TextMeshProUGUI simulateTextOnOffG120, simulateTextVelSPG120, simulateTextVelG120, simulateTextSetVelSPG120;
     public GameObject diskMotor;
     public Slider sliderVelG120SP, simulateSilderVelG120SP;
+
+    float timerUp = 0f, timerDown = 4f;
+    public float rotSpeechDiskMotor = 0;
+
     //public int speed;
 
     // Start is called before the first frame update
@@ -60,17 +64,67 @@ public class update_data_inverter : MonoBehaviour
         //simulate = Ramp Function?
         if (global_variables.onOffG120 == 1151)
         {
-            global_variables.velWriteG120 = (ushort)(global_variables.velSPG120 * 16384 / 1300);
+            //global_variables.velWriteG120 = (ushort)(global_variables.velSPG120 * 16384 / 1300);
+            global_variables.velWriteG120 = (ushort)(rotSpeechDiskMotor * 16384 / 1300);
         }
         else
         {
             global_variables.velWriteG120 = 0;
-        } 
-            
-        
+            global_variables.velWriteG120 = (ushort)(rotSpeechDiskMotor * 16384 / 1300);
+        }
+
+        RotateDisk();
         simulateTextVelG120.text = global_variables.velG120.ToString();
 
-        diskMotor.transform.Rotate(0f, 0f, 5f * global_variables.velG120 * Time.deltaTime);
+
+        //diskMotor.transform.Rotate(0f, 0f, 5f * global_variables.velG120 * Time.deltaTime);
+    }    
+    void RotateDisk()
+    {
+        if (global_variables.onOffG120 == 1151) 
+        {
+            if (rotSpeechDiskMotor < global_variables.velSPG120)
+            {
+
+                if (timerUp <= 4)
+                {
+                    timerUp += Time.deltaTime;
+                    rotSpeechDiskMotor = global_variables.velSPG120 * timerUp / 4f;
+                }
+
+                //else timerUp = 0;
+
+            }
+            else if (rotSpeechDiskMotor >= global_variables.velSPG120)
+            {
+                rotSpeechDiskMotor = global_variables.velSPG120;
+                timerUp = 0;
+            }
+            diskMotor.transform.Rotate(0f, 0f, 3f * rotSpeechDiskMotor * Time.deltaTime);
+
+        }
+        else if (global_variables.onOffG120 == 1150)
+        {
+            if (rotSpeechDiskMotor > 0)
+            {
+
+                if (timerDown >= 0)
+                {
+                    timerDown -= Time.deltaTime;
+                    rotSpeechDiskMotor = global_variables.velSPG120 * timerDown / 4f;
+                }
+
+                //else timerUp = 0;
+
+            }
+            else if (rotSpeechDiskMotor <= 10)
+            {
+                rotSpeechDiskMotor = 0;
+                timerDown = 4;
+            }
+            diskMotor.transform.Rotate(0f, 0f, 3f * rotSpeechDiskMotor * Time.deltaTime);
+            //diskMotor.transform.Rotate(0f, -1f * rotSpeechDiskMotor * Time.deltaTime, 0f);
+        }
     }    
       
 }
