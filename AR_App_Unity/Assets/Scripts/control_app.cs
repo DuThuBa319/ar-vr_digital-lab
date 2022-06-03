@@ -27,4 +27,5 @@ public class control_app : MonoBehaviour
         Application.Quit();
         Debug.Log("QuitApp!");
     }
+    
 }
